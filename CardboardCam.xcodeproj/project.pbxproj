@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B771B0E54FE00D998E7 /* AppDelegate.swift */; };
 		734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B791B0E54FF00D998E7 /* CardboardCam.xcdatamodeld */; };
-		734D4B7D1B0E54FF00D998E7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B7C1B0E54FF00D998E7 /* ViewController.swift */; };
+		734D4B7D1B0E54FF00D998E7 /* ConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */; };
 		734D4B801B0E54FF00D998E7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 734D4B7E1B0E54FF00D998E7 /* Main.storyboard */; };
 		734D4B821B0E54FF00D998E7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 734D4B811B0E54FF00D998E7 /* Images.xcassets */; };
 		734D4B851B0E54FF00D998E7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 734D4B831B0E54FF00D998E7 /* LaunchScreen.xib */; };
@@ -32,7 +32,7 @@
 		734D4B761B0E54FE00D998E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		734D4B771B0E54FE00D998E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		734D4B7A1B0E54FF00D998E7 /* CardboardCam.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CardboardCam.xcdatamodel; sourceTree = "<group>"; };
-		734D4B7C1B0E54FF00D998E7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionViewController.swift; sourceTree = "<group>"; };
 		734D4B7F1B0E54FF00D998E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		734D4B811B0E54FF00D998E7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		734D4B841B0E54FF00D998E7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 			children = (
 				734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */,
 				734D4B771B0E54FE00D998E7 /* AppDelegate.swift */,
-				734D4B7C1B0E54FF00D998E7 /* ViewController.swift */,
+				734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */,
 				734D4B7E1B0E54FF00D998E7 /* Main.storyboard */,
 				734D4B811B0E54FF00D998E7 /* Images.xcassets */,
 				734D4B831B0E54FF00D998E7 /* LaunchScreen.xib */,
@@ -218,7 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				734D4B7D1B0E54FF00D998E7 /* ViewController.swift in Sources */,
+				734D4B7D1B0E54FF00D998E7 /* ConnectionViewController.swift in Sources */,
 				734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */,
 				734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */,
 				734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */,

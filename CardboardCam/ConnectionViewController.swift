@@ -9,9 +9,16 @@
 import UIKit
 import MultipeerConnectivity
 
-class ViewController: UIViewController,MCBrowserViewControllerDelegate {
+class ConnectionViewController: UIViewController,MCBrowserViewControllerDelegate {
     
     var appDelegate:AppDelegate!
+    
+    @IBOutlet weak var startButton: UIBarButtonItem!
+    @IBOutlet weak var headlineLabel: UILabel!
+    @IBOutlet weak var controllerLabel: UILabel!
+    @IBOutlet weak var participantLabel: UILabel!
+    @IBOutlet weak var controllerSwitch: UISwitch!
+    @IBOutlet weak var participantSwitch: UISwitch!
     
     @IBAction func connectDevices(sender: AnyObject) {
         if appDelegate.mpcHandler.session != nil{
@@ -22,6 +29,14 @@ class ViewController: UIViewController,MCBrowserViewControllerDelegate {
             
         }
 
+    }
+    
+    @IBAction func participantSwitchChanged(sender: UISwitch) {
+        controllerSwitch.setOn(false, animated: true)
+    }
+    
+    @IBAction func controllerSwitchChanged(sender: UISwitch) {
+        participantSwitch.setOn(false, animated: true)
     }
    
     override func viewDidLoad() {
@@ -49,12 +64,33 @@ class ViewController: UIViewController,MCBrowserViewControllerDelegate {
         
         if state == MCSessionState.Connected.rawValue{
             self.navigationItem.title = "Connected"
-        }
+            startButton.enabled = true
+            headlineLabel.hidden = false
+            controllerLabel.hidden = false
+            participantLabel.hidden = false
+            controllerSwitch.hidden = false
+            participantSwitch.hidden = false
+            
+           
+                    }
         if state == MCSessionState.NotConnected.rawValue{
             self.navigationItem.title = "Not Connected"
+            startButton.enabled = false
+            headlineLabel.hidden = true
+            controllerLabel.hidden = true
+            participantLabel.hidden = true
+            controllerSwitch.hidden = true
+            participantSwitch.hidden = true
+           
         }
         if state == MCSessionState.Connecting.rawValue{
             self.navigationItem.title = "Connecting"
+            startButton.enabled = false
+            headlineLabel.hidden = true
+            controllerLabel.hidden = true
+            participantLabel.hidden = true
+            controllerSwitch.hidden = true
+            participantSwitch.hidden = true
         }
     }
     
