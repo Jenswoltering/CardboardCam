@@ -13,7 +13,7 @@ class ViewController: UIViewController,MCBrowserViewControllerDelegate {
     
     var appDelegate:AppDelegate!
     
-    @IBAction func connectWithPlayer(sender: AnyObject) {
+    @IBAction func connectDevices(sender: AnyObject) {
         if appDelegate.mpcHandler.session != nil{
             appDelegate.mpcHandler.setupBrowser()
             appDelegate.mpcHandler.browser.delegate = self
@@ -21,7 +21,9 @@ class ViewController: UIViewController,MCBrowserViewControllerDelegate {
             self.presentViewController(appDelegate.mpcHandler.browser, animated: true, completion: nil)
             
         }
+
     }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -45,13 +47,13 @@ class ViewController: UIViewController,MCBrowserViewControllerDelegate {
         
         let state = userInfo.objectForKey("state") as! Int
         
-        if state != MCSessionState.Connected.rawValue{
+        if state == MCSessionState.Connected.rawValue{
             self.navigationItem.title = "Connected"
         }
-        if state != MCSessionState.NotConnected.rawValue{
+        if state == MCSessionState.NotConnected.rawValue{
             self.navigationItem.title = "Not Connected"
         }
-        if state != MCSessionState.Connecting.rawValue{
+        if state == MCSessionState.Connecting.rawValue{
             self.navigationItem.title = "Connecting"
         }
     }
