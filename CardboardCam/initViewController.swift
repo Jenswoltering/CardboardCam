@@ -31,7 +31,7 @@ class initViewController: UIViewController {
         self.counter = 0
         for i in 0..<100 {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-                sleep(1)
+                sleep(5)
                 dispatch_async(dispatch_get_main_queue(), {
                     self.counter++
                     return

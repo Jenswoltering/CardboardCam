@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7318F7801B0F6EB400E68A0A /* GlassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F77F1B0F6EB400E68A0A /* GlassViewController.swift */; };
+		7318F7821B0F742F00E68A0A /* MotionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F7811B0F742F00E68A0A /* MotionController.swift */; };
 		734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B771B0E54FE00D998E7 /* AppDelegate.swift */; };
 		734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B791B0E54FF00D998E7 /* CardboardCam.xcdatamodeld */; };
 		734D4B7D1B0E54FF00D998E7 /* ConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */; };
@@ -30,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7318F77F1B0F6EB400E68A0A /* GlassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlassViewController.swift; sourceTree = "<group>"; };
+		7318F7811B0F742F00E68A0A /* MotionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionController.swift; sourceTree = "<group>"; };
 		734D4B721B0E54FE00D998E7 /* CardboardCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardboardCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		734D4B761B0E54FE00D998E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		734D4B771B0E54FE00D998E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,11 +90,13 @@
 			isa = PBXGroup;
 			children = (
 				734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */,
+				7318F77F1B0F6EB400E68A0A /* GlassViewController.swift */,
 				734D4B771B0E54FE00D998E7 /* AppDelegate.swift */,
 				734D4BA01B0F44AA00D998E7 /* AVController.swift */,
 				734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */,
 				734D4B9E1B0F247A00D998E7 /* initViewController.swift */,
 				734D4B7E1B0E54FF00D998E7 /* Main.storyboard */,
+				7318F7811B0F742F00E68A0A /* MotionController.swift */,
 				734D4B811B0E54FF00D998E7 /* Images.xcassets */,
 				734D4B831B0E54FF00D998E7 /* LaunchScreen.xib */,
 				734D4B791B0E54FF00D998E7 /* CardboardCam.xcdatamodeld */,
@@ -173,6 +179,7 @@
 				TargetAttributes = {
 					734D4B711B0E54FE00D998E7 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = HUU7KYUFRR;
 					};
 					734D4B891B0E54FF00D998E7 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -226,6 +233,8 @@
 			files = (
 				734D4BA11B0F44AA00D998E7 /* AVController.swift in Sources */,
 				734D4B9F1B0F247A00D998E7 /* initViewController.swift in Sources */,
+				7318F7801B0F6EB400E68A0A /* GlassViewController.swift in Sources */,
+				7318F7821B0F742F00E68A0A /* MotionController.swift in Sources */,
 				734D4B7D1B0E54FF00D998E7 /* ConnectionViewController.swift in Sources */,
 				734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */,
 				734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */,
@@ -356,10 +365,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = CardboardCam/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -367,10 +379,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = CardboardCam/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -427,6 +442,7 @@
 				734D4B961B0E54FF00D998E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		734D4B971B0E54FF00D998E7 /* Build configuration list for PBXNativeTarget "CardboardCamTests" */ = {
 			isa = XCConfigurationList;
@@ -435,6 +451,7 @@
 				734D4B991B0E54FF00D998E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

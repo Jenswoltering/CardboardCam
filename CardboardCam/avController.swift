@@ -29,6 +29,27 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
                         captureSession.addInput(videoIn as AVCaptureDeviceInput)
                         
                         if videoDevice.lockForConfiguration(nil){
+                            for vFormat in videoDevice.formats {
+                                
+                                // 2
+                                var ranges = vFormat.videoSupportedFrameRateRanges as! [AVFrameRateRange]
+                                var frameRates = ranges[0]
+                                
+                                // 3
+                                if frameRates.maxFrameRate == 120 {
+                                    
+                                    // 4
+                                    
+                                    videoDevice.activeFormat = vFormat as! AVCaptureDeviceFormat
+                                    videoDevice.activeVideoMinFrameDuration = frameRates.minFrameDuration
+                                    videoDevice.activeVideoMaxFrameDuration = frameRates.maxFrameDuration
+            
+                                    
+                                }
+                            }
+                            
+                            
+                            
                             videoDevice.setFocusModeLockedWithLensPosition(1.0, completionHandler: nil)
                             videoDevice.unlockForConfiguration()
                         }

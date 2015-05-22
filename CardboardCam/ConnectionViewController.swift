@@ -32,11 +32,11 @@ class ConnectionViewController: UIViewController,MCBrowserViewControllerDelegate
     }
     
     @IBAction func participantSwitchChanged(sender: UISwitch) {
-        controllerSwitch.setOn(false, animated: true)
+        controllerSwitch.setOn(!participantSwitch.enabled, animated: true)
     }
     
     @IBAction func controllerSwitchChanged(sender: UISwitch) {
-        participantSwitch.setOn(false, animated: true)
+        participantSwitch.setOn(!controllerSwitch.enabled, animated: true)
     }
    
     override func viewDidLoad() {

@@ -28,7 +28,6 @@
                                 <rect key="frame" x="316" y="210" width="51" height="31"/>
                                 <rect key="contentStretch" x="1.3877787807814457e-17" y="0.0" width="1" height="1"/>
                                 <connections>
-                                    <action selector="connectDevices:" destination="vXZ-lx-hvc" eventType="valueChanged" id="nnQ-nY-trH"/>
                                     <action selector="participantSwitchChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="yKo-6Y-0Fn"/>
                                 </connections>
                             </switch>
@@ -88,14 +87,14 @@
                         <viewControllerLayoutGuide type="bottom" id="ri3-Sb-n8x"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="IKU-71-7lD">
-                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ssx-rI-gH6">
-                                <rect key="frame" x="209" y="159" width="150" height="2"/>
+                                <rect key="frame" x="258" y="187" width="150" height="2"/>
                             </progressView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBu-Mq-twd">
-                                <rect key="frame" x="271" y="98" width="27" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBu-Mq-twd">
+                                <rect key="frame" x="295" y="109" width="77" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -105,6 +104,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="4TW-IF-EQs"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="progressBar" destination="ssx-rI-gH6" id="1aW-7F-js4"/>
                         <outlet property="progressLabel" destination="UBu-Mq-twd" id="X1z-pF-vln"/>
@@ -112,7 +112,42 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VF3-7z-1mY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1471" y="401"/>
+            <point key="canvasLocation" x="1569.5" y="882.5"/>
+        </scene>
+        <!--Glass View Controller-->
+        <scene sceneID="Mst-5E-AGx">
+            <objects>
+                <viewController id="JRh-t7-Wdv" customClass="GlassViewController" customModule="CardboardCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8OH-eb-8It"/>
+                        <viewControllerLayoutGuide type="bottom" id="yGc-BU-FoK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="je3-Re-DS3">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fb5-mn-bf5">
+                                <rect key="frame" x="0.0" y="0.0" width="333" height="375"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ju6-qT-t8q">
+                                <rect key="frame" x="334" y="0.0" width="333" height="375"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="leftEye" destination="fb5-mn-bf5" id="Uic-xl-TKb"/>
+                        <outlet property="rightEye" destination="ju6-qT-t8q" id="Fnf-81-Hzl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dbQ-7x-gac" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2120.5" y="400.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="o9o-bP-VGI">
