@@ -16,7 +16,7 @@
 		734D4B911B0E54FF00D998E7 /* CardboardCamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B901B0E54FF00D998E7 /* CardboardCamTests.swift */; };
 		734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */; };
 		734D4B9F1B0F247A00D998E7 /* initViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B9E1B0F247A00D998E7 /* initViewController.swift */; };
-		734D4BA11B0F44AA00D998E7 /* avController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4BA01B0F44AA00D998E7 /* avController.swift */; };
+		734D4BA11B0F44AA00D998E7 /* AVController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4BA01B0F44AA00D998E7 /* AVController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +43,7 @@
 		734D4B901B0E54FF00D998E7 /* CardboardCamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardboardCamTests.swift; sourceTree = "<group>"; };
 		734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCHandler.swift; sourceTree = "<group>"; };
 		734D4B9E1B0F247A00D998E7 /* initViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = initViewController.swift; sourceTree = "<group>"; };
-		734D4BA01B0F44AA00D998E7 /* avController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = avController.swift; sourceTree = "<group>"; };
+		734D4BA01B0F44AA00D998E7 /* AVController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +87,7 @@
 			children = (
 				734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */,
 				734D4B771B0E54FE00D998E7 /* AppDelegate.swift */,
-				734D4BA01B0F44AA00D998E7 /* avController.swift */,
+				734D4BA01B0F44AA00D998E7 /* AVController.swift */,
 				734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */,
 				734D4B9E1B0F247A00D998E7 /* initViewController.swift */,
 				734D4B7E1B0E54FF00D998E7 /* Main.storyboard */,
@@ -224,7 +224,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				734D4BA11B0F44AA00D998E7 /* avController.swift in Sources */,
+				734D4BA11B0F44AA00D998E7 /* AVController.swift in Sources */,
 				734D4B9F1B0F247A00D998E7 /* initViewController.swift in Sources */,
 				734D4B7D1B0E54FF00D998E7 /* ConnectionViewController.swift in Sources */,
 				734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */,

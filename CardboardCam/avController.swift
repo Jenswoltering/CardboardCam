@@ -1,5 +1,5 @@
 //
-//  avController.swift
+//  AVController.swift
 //  CardboardCam
 //
 //  Created by Jens Woltering on 22.05.15.
@@ -13,7 +13,7 @@ import CoreMedia
 import CoreVideo
 import CoreGraphics
 
-class avController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObjectProtocol{
+class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObjectProtocol{
     var captureSession = AVCaptureSession()
     var customPreviewLayerLeft = CALayer()
     var customPreviewLayerRight = CALayer()
@@ -76,7 +76,8 @@ class avController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
         var context = CGBitmapContextCreate(lumaBuffer, width, height, 8, bytesPerRow, grayColorSpace, bitmapInfo)
         var dstImage = CGBitmapContextCreateImage(context)
         dispatch_sync(dispatch_get_main_queue()){
-           // self.customPreviewLayerLeft.contents = dstImage
+           NSLog("test")
+            // self.customPreviewLayerLeft.contents = dstImage
            // self.customPreviewLayerRight.contents = dstImage
         }
         

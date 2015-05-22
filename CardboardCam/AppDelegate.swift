@@ -14,10 +14,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var mpcHandler:MPCHandler = MPCHandler()
-
+    var avController:AVController = AVController()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        avController.setupCamera()
+        avController.startCapture()
         return true
     }
 
