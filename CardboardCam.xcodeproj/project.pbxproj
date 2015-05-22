@@ -15,6 +15,7 @@
 		734D4B851B0E54FF00D998E7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 734D4B831B0E54FF00D998E7 /* LaunchScreen.xib */; };
 		734D4B911B0E54FF00D998E7 /* CardboardCamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B901B0E54FF00D998E7 /* CardboardCamTests.swift */; };
 		734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */; };
+		734D4B9F1B0F247A00D998E7 /* initViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B9E1B0F247A00D998E7 /* initViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		734D4B8F1B0E54FF00D998E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		734D4B901B0E54FF00D998E7 /* CardboardCamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardboardCamTests.swift; sourceTree = "<group>"; };
 		734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCHandler.swift; sourceTree = "<group>"; };
+		734D4B9E1B0F247A00D998E7 /* initViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = initViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */,
 				734D4B771B0E54FE00D998E7 /* AppDelegate.swift */,
 				734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */,
+				734D4B9E1B0F247A00D998E7 /* initViewController.swift */,
 				734D4B7E1B0E54FF00D998E7 /* Main.storyboard */,
 				734D4B811B0E54FF00D998E7 /* Images.xcassets */,
 				734D4B831B0E54FF00D998E7 /* LaunchScreen.xib */,
@@ -218,6 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				734D4B9F1B0F247A00D998E7 /* initViewController.swift in Sources */,
 				734D4B7D1B0E54FF00D998E7 /* ConnectionViewController.swift in Sources */,
 				734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */,
 				734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */,

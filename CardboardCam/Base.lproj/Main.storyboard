@@ -59,7 +59,11 @@
                                 <action selector="connectDevices:" destination="vXZ-lx-hvc" id="CfU-5o-xc1"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="start" id="W08-WX-HiD"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="start" id="W08-WX-HiD">
+                            <connections>
+                                <segue destination="Ejr-oa-dga" kind="modal" id="etc-uH-RBi"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
@@ -73,13 +77,49 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="766" y="406"/>
+            <point key="canvasLocation" x="815" y="401"/>
+        </scene>
+        <!--Init View Controller-->
+        <scene sceneID="fwq-b3-AvK">
+            <objects>
+                <viewController id="Ejr-oa-dga" customClass="initViewController" customModule="CardboardCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fnL-P3-qXP"/>
+                        <viewControllerLayoutGuide type="bottom" id="ri3-Sb-n8x"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IKU-71-7lD">
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ssx-rI-gH6">
+                                <rect key="frame" x="209" y="159" width="150" height="2"/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0%" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBu-Mq-twd">
+                                <rect key="frame" x="271" y="98" width="27" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="4TW-IF-EQs"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="progressBar" destination="ssx-rI-gH6" id="1aW-7F-js4"/>
+                        <outlet property="progressLabel" destination="UBu-Mq-twd" id="X1z-pF-vln"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VF3-7z-1mY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1471" y="401"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="o9o-bP-VGI">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="F0Q-bP-En5" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="AT7-vY-qdv">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
