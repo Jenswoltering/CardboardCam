@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7318F7801B0F6EB400E68A0A /* GlassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F77F1B0F6EB400E68A0A /* GlassViewController.swift */; };
 		7318F7821B0F742F00E68A0A /* MotionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F7811B0F742F00E68A0A /* MotionController.swift */; };
+		7318F7841B0F89E500E68A0A /* MotionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F7831B0F89E500E68A0A /* MotionKit.swift */; };
 		734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B771B0E54FE00D998E7 /* AppDelegate.swift */; };
 		734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B791B0E54FF00D998E7 /* CardboardCam.xcdatamodeld */; };
 		734D4B7D1B0E54FF00D998E7 /* ConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */; };
@@ -34,6 +35,7 @@
 /* Begin PBXFileReference section */
 		7318F77F1B0F6EB400E68A0A /* GlassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlassViewController.swift; sourceTree = "<group>"; };
 		7318F7811B0F742F00E68A0A /* MotionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionController.swift; sourceTree = "<group>"; };
+		7318F7831B0F89E500E68A0A /* MotionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionKit.swift; sourceTree = "<group>"; };
 		734D4B721B0E54FE00D998E7 /* CardboardCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardboardCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		734D4B761B0E54FE00D998E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		734D4B771B0E54FE00D998E7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 				734D4B9E1B0F247A00D998E7 /* initViewController.swift */,
 				734D4B7E1B0E54FF00D998E7 /* Main.storyboard */,
 				7318F7811B0F742F00E68A0A /* MotionController.swift */,
+				7318F7831B0F89E500E68A0A /* MotionKit.swift */,
 				734D4B811B0E54FF00D998E7 /* Images.xcassets */,
 				734D4B831B0E54FF00D998E7 /* LaunchScreen.xib */,
 				734D4B791B0E54FF00D998E7 /* CardboardCam.xcdatamodeld */,
@@ -239,6 +242,7 @@
 				734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */,
 				734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */,
 				734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */,
+				7318F7841B0F89E500E68A0A /* MotionKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

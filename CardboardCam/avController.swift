@@ -87,16 +87,8 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         var imageBuffer =  CMSampleBufferGetImageBuffer(sampleBuffer);
         CVPixelBufferLockBaseAddress(imageBuffer,0)
-        
-        var width = CVPixelBufferGetWidthOfPlane(imageBuffer, 0)
-        var height = CVPixelBufferGetHeightOfPlane(imageBuffer, 0)
-        var bytesPerRow = CVPixelBufferGetBytesPerRowOfPlane(imageBuffer, 0)
-        let lumaBuffer = CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0)
-        var grayColorSpace = CGColorSpaceCreateDeviceGray()
-        let bitmapInfo = CGBitmapInfo(CGImageAlphaInfo.None.rawValue)
-        var context = CGBitmapContextCreate(lumaBuffer, width, height, 8, bytesPerRow, grayColorSpace, bitmapInfo)
-        var dstImage = CGBitmapContextCreateImage(context)
-        dispatch_sync(dispatch_get_main_queue()){
+        var processedImage = processImage(imageBuffer, param1: 1, param2: 1)
+           dispatch_sync(dispatch_get_main_queue()){
            NSLog("test")
             // self.customPreviewLayerLeft.contents = dstImage
            // self.customPreviewLayerRight.contents = dstImage
@@ -104,7 +96,36 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
         
         
     }
-    
+    func processImage(sampleBuffer: CVPixelBuffer, param1 :Int, param2:Int)->CIImage{
+        var unprocessedImage :CIImage
+        if param1 == 0 && param2 == 0{
+            unprocessedImage = CIImage(CVPixelBuffer: sampleBuffer)
+            return unprocessedImage
+        }else
+        {
+            
+            var ciimage :CIImage = CIImage(CVPixelBuffer: sampleBuffer)
+            var filter : CIFilter = CIFilter(name:"CIGaussianBlur")
+            var filterSat : CIFilter = CIFilter(name: "CIColorControls")
+            
+            filter.setDefaults()
+            
+            filter.setValue(ciimage, forKey: kCIInputImageKey)
+            
+            filter.setValue(30, forKey: kCIInputRadiusKey)
+            
+            
+            
+            ciimage  = filter.outputImage
+            
+            filterSat.setValue(ciimage, forKey: kCIInputImageKey)
+            filterSat.setValue(1.0, forKey: kCIInputSaturationKey)
+            
+            ciimage = filterSat.outputImage
+            return ciimage
+
+        }
+    }
     func convertImageFromCMSampleBufferRef(sampleBuffer:CMSampleBuffer) -> CIImage{
         let pixelBuffer:CVPixelBufferRef = CMSampleBufferGetImageBuffer(sampleBuffer);
         var ciImage:CIImage = CIImage(CVPixelBuffer: pixelBuffer)
