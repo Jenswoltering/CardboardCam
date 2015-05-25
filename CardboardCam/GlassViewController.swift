@@ -8,14 +8,35 @@
 
 import UIKit
 
+
 class GlassViewController: UIViewController {
-
+    var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
+    var videoLayerLeft = CALayer()
+    var videoLayerRight = CALayer()
+    var image :CIImage?
+    var context :CIContext!
     @IBOutlet weak var leftEye: UIView!
+    @IBOutlet weak var leftEyeImage: UIImageView!
+    @IBOutlet weak var rightEyeImage: UIImageView!
     @IBOutlet weak var rightEye: UIView!
-    override func viewDidLoad() {
-        super.viewDidLoad()
 
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        videoLayerLeft.backgroundColor = UIColor.greenColor().CGColor
+        videoLayerLeft.frame = leftEye.bounds
+        videoLayerRight.frame = rightEye.bounds
+        videoLayerLeft.position = leftEye.center
+        videoLayerRight.position = rightEye.center
+        videoLayerLeft.setNeedsDisplay()
+        videoLayerRight.setNeedsDisplay()
+        self.view.layer.addSublayer(videoLayerLeft)
+        self.view.layer.addSublayer(videoLayerRight)
+        //self.view.layer.addSubview(videoLayerRight)
+        //leftEye.addSubview(videoLayerLeft)
+        //rightEye.addSubview(videoLayerRight)
         // Do any additional setup after loading the view.
+      
     }
 
     override func didReceiveMemoryWarning() {
@@ -23,6 +44,18 @@ class GlassViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func updateView(proimage :UIImage){
+        NSLog("Update!")
+        //CATransaction.begin()
+        //self.videoLayerLeft.contents = self.appDelegate!.cbCamController.processedCameraImage
+        //image = self.appDelegate!.cbCamController.processedCameraImage
+            NSLog("UIImage")
+            self.rightEyeImage.image = proimage
+            self.videoLayerRight.contents = UIColor.redColor().CGColor
+        //CATransaction.flush()
+       // CATransaction.commit()
+        
+    }
 
     /*
     // MARK: - Navigation

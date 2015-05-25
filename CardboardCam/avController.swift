@@ -14,6 +14,7 @@ import CoreVideo
 import CoreGraphics
 
 class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObjectProtocol{
+    var appDelegate:AppDelegate!
     var captureSession = AVCaptureSession()
     var customPreviewLayerLeft = CALayer()
     var customPreviewLayerRight = CALayer()
@@ -21,6 +22,7 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
     var queue:dispatch_queue_t = dispatch_queue_create("VideoQueue", DISPATCH_QUEUE_SERIAL)
     
     func setupCamera(){
+        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         if let videoDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) {
             var err: NSError? = nil
             if let videoIn : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(videoDevice, error: &err) as? AVCaptureDeviceInput {
@@ -47,9 +49,6 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
                                     
                                 }
                             }
-                            
-                            
-                            
                             videoDevice.setFocusModeLockedWithLensPosition(1.0, completionHandler: nil)
                             videoDevice.unlockForConfiguration()
                         }
@@ -87,42 +86,43 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         var imageBuffer =  CMSampleBufferGetImageBuffer(sampleBuffer);
         CVPixelBufferLockBaseAddress(imageBuffer,0)
-        var processedImage = processImage(imageBuffer, param1: 1, param2: 1)
-           dispatch_sync(dispatch_get_main_queue()){
-           NSLog("test")
-            // self.customPreviewLayerLeft.contents = dstImage
-           // self.customPreviewLayerRight.contents = dstImage
+        var processedImage = processImage(imageBuffer, param1: 0, param2: 0)
+        //appDelegate!.cbCamController.setprocessedCameraImage(processedImage)
+        dispatch_sync(dispatch_get_main_queue()){
+            NSLog("test")
+                //var image = CIImage(CVPixelBuffer: imageBuffer)
+                self.appDelegate.renderGUI!.updateView(processedImage)
+                //self.appDelegate!.renderGUI?.videoLayerLeft.contents=processedImage
+                // self.customPreviewLayerLeft.contents = dstImage
+                // self.customPreviewLayerRight.contents = dstImage
+            
+           
         }
         
         
     }
-    func processImage(sampleBuffer: CVPixelBuffer, param1 :Int, param2:Int)->CIImage{
-        var unprocessedImage :CIImage
+    func processImage(sampleBuffer: CVPixelBuffer!, param1 :Int, param2:Int)->UIImage{
+        var unprocessedImage = CIImage(CVPixelBuffer: sampleBuffer)
+        let context = CIContext(options:nil)
+        var filter : CIFilter = CIFilter(name:"CIGaussianBlur")
+        var filterSat : CIFilter = CIFilter(name: "CIColorControls")
+
         if param1 == 0 && param2 == 0{
-            unprocessedImage = CIImage(CVPixelBuffer: sampleBuffer)
-            return unprocessedImage
+            filterSat.setValue(unprocessedImage, forKey: kCIInputImageKey)
+            filterSat.setValue(1.0, forKey: kCIInputSaturationKey)
+            filterSat.setValue(1.0, forKey: kCIInputBrightnessKey)
+            let cgimg = context.createCGImage(filterSat.outputImage, fromRect: filterSat.outputImage.extent())
+            let newImage = UIImage(CGImage: cgimg)
+            return newImage!
         }else
         {
-            
             var ciimage :CIImage = CIImage(CVPixelBuffer: sampleBuffer)
-            var filter : CIFilter = CIFilter(name:"CIGaussianBlur")
-            var filterSat : CIFilter = CIFilter(name: "CIColorControls")
-            
             filter.setDefaults()
-            
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            
+            filter.setValue(unprocessedImage, forKey: kCIInputImageKey)
             filter.setValue(30, forKey: kCIInputRadiusKey)
-            
-            
-            
-            ciimage  = filter.outputImage
-            
-            filterSat.setValue(ciimage, forKey: kCIInputImageKey)
-            filterSat.setValue(1.0, forKey: kCIInputSaturationKey)
-            
-            ciimage = filterSat.outputImage
-            return ciimage
+            let cgimg = context.createCGImage(filter.outputImage, fromRect: filter.outputImage.extent())
+            let newImage = UIImage(CGImage: cgimg)
+            return newImage!
 
         }
     }
