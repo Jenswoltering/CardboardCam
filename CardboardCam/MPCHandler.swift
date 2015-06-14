@@ -16,12 +16,15 @@ class MPCHandler: NSObject, MCSessionDelegate {
     var session:MCSession!
     var browser:MCBrowserViewController!
     var advertiser:MCAdvertiserAssistant? = nil
+    var mode = MCSessionSendDataMode.Unreliable
+    var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
     
     func setupPeerWithDisplayName (displayName:String){
         peerID = MCPeerID(displayName: displayName)
     }
     
     func setupSession(){
+        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         session = MCSession(peer: peerID)
         session.delegate = self
     }
@@ -52,10 +55,11 @@ class MPCHandler: NSObject, MCSessionDelegate {
     
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
         let userInfo = ["data":data, "peerID":peerID]
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            NSNotificationCenter.defaultCenter().postNotificationName("MPC_DidReceiveDataNotification", object: nil, userInfo: userInfo)
-        })
-        
+//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//            NSNotificationCenter.defaultCenter().postNotificationName("MPC_DidReceiveDataNotification", object: nil, userInfo: userInfo)
+//        })
+        let receivedData:NSData = userInfo["data"] as! NSData
+        self.appDelegate.renderImage=UIImage(data: receivedData)
     }
     
     

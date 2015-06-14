@@ -13,6 +13,7 @@ import CoreMedia
 import CoreVideo
 import CoreGraphics
 
+
 class GlassViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate{
     var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
     var videoLayerLeft = CALayer()
@@ -23,6 +24,8 @@ class GlassViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffe
     var customPreviewLayerLeft = CALayer()
     var customPreviewLayerRight = CALayer()
     var dataOutput = AVCaptureVideoDataOutput()
+    var counter :Int = 0
+    
     var queue:dispatch_queue_t = dispatch_queue_create("VideoQueue", DISPATCH_QUEUE_SERIAL)
     @IBOutlet weak var leftEye: UIView!
     @IBOutlet weak var leftEyeImage: UIImageView!
@@ -30,7 +33,9 @@ class GlassViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffe
     @IBOutlet weak var rightEye: UIView!
     
     func setupCamera(){
+        
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
         if let videoDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) {
             var err: NSError? = nil
             if let videoIn : AVCaptureDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(videoDevice, error: &err) as? AVCaptureDeviceInput {
@@ -89,7 +94,17 @@ class GlassViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffe
         
     }
     func startCapture(){
+        
         captureSession.startRunning()
+    }
+    
+    func handleReceiveDataWithNotification(notification:NSNotification){
+        let userInfo = notification.userInfo! as Dictionary
+        let receivedData:NSData = userInfo["data"] as! NSData
+        
+        self.rightEyeImage.image = UIImage(data: receivedData)
+        self.leftEyeImage.image = UIImage(data: receivedData)
+
     }
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
         
@@ -105,19 +120,24 @@ class GlassViewController: UIViewController, AVCaptureVideoDataOutputSampleBuffe
         let bitmapInfo = CGBitmapInfo(CGImageAlphaInfo.None.rawValue)
         var context = CGBitmapContextCreate(lumaBuffer, width, height, 8, bytesPerRow, grayColorSpace, bitmapInfo)
         var dstImage = CGBitmapContextCreateImage(context)
-        
-        
+        var uiDstImage = UIImage(CGImage: dstImage)
+        var messageData = UIImageJPEGRepresentation(uiDstImage, 0.5)
+        var error:NSError?
+       
 //        var imageBuffer =  CMSampleBufferGetImageBuffer(sampleBuffer);
 //        CVPixelBufferLockBaseAddress(imageBuffer,0)
 //        var processedImage = processImage(imageBuffer, param1: 0, param2: 0)
 //        //appDelegate!.cbCamController.setprocessedCameraImage(processedImage)
-        dispatch_sync(dispatch_get_main_queue()){
+        dispatch_async(dispatch_get_main_queue()){
             //NSLog("test")
-            
-            
-            
-           self.rightEyeImage.image = UIImage(CGImage: dstImage)
-           self.leftEyeImage.image = UIImage(CGImage: dstImage)
+            self.appDelegate.mpcHandler.session.sendData(messageData, toPeers: self.appDelegate.mpcHandler.session.connectedPeers, withMode: self.appDelegate.mpcHandler.mode, error: &error)
+            if self.appDelegate.renderImage != nil {
+                //self.videoLayerRight.contents = dstImage
+                self.leftEyeImage.image = self.appDelegate.renderImage
+                self.rightEyeImage.image = self.appDelegate.renderImage
+                    //UIImage(data: messageData)
+                //self.videoLayerLeft.contents = self.appDelegate.renderImage
+            }
             //self.videoLayerRight.contents = dstImage
             //self.videoLayerLeft.contents=dstImage
         }

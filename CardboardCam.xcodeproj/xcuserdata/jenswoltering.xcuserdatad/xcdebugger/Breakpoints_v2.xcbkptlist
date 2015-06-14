@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CardboardCam/AppDelegate.swift"
-            timestampString = "454275357.837145"
+            timestampString = "455982234.115481"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "24"
@@ -118,7 +118,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CardboardCam/AVController.swift"
@@ -129,12 +129,44 @@
             endingLineNumber = "100"
             landmarkName = "captureOutput(_:didOutputSampleBuffer:fromConnection:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CardboardCam.AVController.captureOutput (CardboardCam.AVController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureOutput&gt;, didOutputSampleBuffer : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.CMSampleBuffer&gt;, fromConnection : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureConnection&gt;) -&gt; ()"
+                  moduleName = "CardboardCam"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenswoltering/Documents/Studium/6%20Semster/MoSy/CardboardCam/CardboardCam/AVController.swift"
+                  timestampString = "455983575.883596"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "500">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "function signature specialization &lt;Arg[1] = Dead, Arg[2] = Value Promoted from InOut&gt; of CardboardCam.AVController.(captureOutput (CardboardCam.AVController) -&gt; (Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureOutput&gt;, didOutputSampleBuffer : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.CMSampleBuffer&gt;, fromConnection : Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.AVCaptureConnection&gt;) -&gt; ()).(closure #1)"
+                  moduleName = "CardboardCam"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenswoltering/Documents/Studium/6%20Semster/MoSy/CardboardCam/CardboardCam/AVController.swift"
+                  timestampString = "455983575.884563"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "416">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CardboardCam/AVController.swift"
@@ -154,12 +186,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CardboardCam/GlassViewController.swift"
-            timestampString = "454287555.774805"
+            timestampString = "455985459.092088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
             landmarkName = "updateView(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CardboardCam/MPCHandler.swift"
+            timestampString = "455983256.962808"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "session(_:didReceiveData:fromPeer:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var root: UIViewController?
     var storyboard: UIStoryboard?
     var renderGUI: GlassViewController?
+    var renderImage :UIImage?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -31,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         root = self.window!.rootViewController
         storyboard = root!.storyboard
         renderGUI = storyboard!.instantiateViewControllerWithIdentifier("glassViewController") as? GlassViewController!
-        
+        renderImage=nil
         NSLog(renderGUI!.title!)
         return true
     }

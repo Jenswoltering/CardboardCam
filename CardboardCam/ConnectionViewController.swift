@@ -47,8 +47,7 @@ class ConnectionViewController: UIViewController,MCBrowserViewControllerDelegate
         appDelegate.mpcHandler.advertiseSelf(true)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "peerChangedStateWithNotification:", name: "MPC_DidChangeStateNotification", object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleReceivedDataWithNotification:", name: "MPC_DidReceiveDataNotification", object: nil)
-        
+               
         // Do any additional setup after loading the view, typically from a nib.
     }
     
