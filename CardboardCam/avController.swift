@@ -43,6 +43,7 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
                                     // 4
                                     
                                     videoDevice.activeFormat = vFormat as! AVCaptureDeviceFormat
+                                    
                                     videoDevice.activeVideoMinFrameDuration = frameRates.minFrameDuration
                                     videoDevice.activeVideoMaxFrameDuration = frameRates.maxFrameDuration
             
@@ -88,7 +89,7 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
         CVPixelBufferLockBaseAddress(imageBuffer,0)
         var processedImage = processImage(imageBuffer, param1: 0, param2: 0)
         //appDelegate!.cbCamController.setprocessedCameraImage(processedImage)
-        dispatch_sync(dispatch_get_main_queue()){
+        dispatch_async(dispatch_get_main_queue()){
             NSLog("test")
                 //var image = CIImage(CVPixelBuffer: imageBuffer)
                 self.appDelegate.renderGUI!.updateView(processedImage)

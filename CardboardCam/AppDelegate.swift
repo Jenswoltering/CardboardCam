@@ -16,8 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var mpcHandler:MPCHandler = MPCHandler()
-    var avController:AVController = AVController()
-    var cbCamController:CBCamController = CBCamController()
+    //var avController:AVController = AVController()
+    //var cbCamController:CBCamController = CBCamController()
     var motionController:MotionController = MotionController()
     var root: UIViewController?
     var storyboard: UIStoryboard?
@@ -25,9 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        avController.setupCamera()
-        avController.startCapture()
-        motionController.start()
+        //avController.setupCamera()
+        //avController.startCapture()
+        //motionController.start()
         root = self.window!.rootViewController
         storyboard = root!.storyboard
         renderGUI = storyboard!.instantiateViewControllerWithIdentifier("glassViewController") as? GlassViewController!
