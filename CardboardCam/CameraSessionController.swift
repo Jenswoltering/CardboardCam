@@ -54,7 +54,7 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 		
 		session = AVCaptureSession()
 		
-		session.sessionPreset = AVCaptureSessionPresetMedium;
+		session.sessionPreset = AVCaptureSessionPreset640x480;
 		
 		authorizeCamera();
 		
@@ -95,6 +95,10 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 		
 		var videoDevice: AVCaptureDevice = CameraSessionController.deviceWithMediaType(AVMediaTypeVideo, position: AVCaptureDevicePosition.Back)
 		videoDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(videoDevice, error: &error) as! AVCaptureDeviceInput;
+        if videoDevice.lockForConfiguration(nil){
+            videoDevice.setFocusModeLockedWithLensPosition(1.0, completionHandler: nil)
+            videoDevice.unlockForConfiguration()
+        }
 		if !(error != nil) {
 			if session.canAddInput(videoDeviceInput) {
 				session.addInput(videoDeviceInput)
@@ -109,7 +113,7 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 		
 		videoDeviceOutput = AVCaptureVideoDataOutput()
 		
-		videoDeviceOutput.videoSettings = [ kCVPixelBufferPixelFormatTypeKey: kCVPixelFormatType_32BGRA ]
+		videoDeviceOutput.videoSettings = [ kCVPixelBufferPixelFormatTypeKey: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange ]
 		
 		videoDeviceOutput.alwaysDiscardsLateVideoFrames = true
 		
@@ -205,13 +209,13 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 	func captureOutput(captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, fromConnection connection: AVCaptureConnection!) {
 		if (connection.supportsVideoOrientation){
 			//connection.videoOrientation = AVCaptureVideoOrientation.PortraitUpsideDown
-			connection.videoOrientation = AVCaptureVideoOrientation.Portrait
+			connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight
 		}
 		if (connection.supportsVideoMirroring) {
 			//connection.videoMirrored = true
 			connection.videoMirrored = false
 		}
-		sessionDelegate?.cameraSessionDidOutputSampleBuffer?(sampleBuffer)
+        sessionDelegate?.cameraSessionDidOutputSampleBuffer?(sampleBuffer)
 	}
 	
 }

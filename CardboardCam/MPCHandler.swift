@@ -10,7 +10,7 @@ import UIKit
 import MultipeerConnectivity
 
 
-class MPCHandler: NSObject, MCSessionDelegate {
+class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
    
     var peerID:MCPeerID!
     var session:MCSession!
@@ -54,17 +54,18 @@ class MPCHandler: NSObject, MCSessionDelegate {
     }
     
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
-        let userInfo = ["data":data, "peerID":peerID]
-//        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//            NSNotificationCenter.defaultCenter().postNotificationName("MPC_DidReceiveDataNotification", object: nil, userInfo: userInfo)
-//        })
-        let receivedData:NSData = userInfo["data"] as! NSData
-        self.appDelegate.renderImage=UIImage(data: receivedData)
+        if (self.appDelegate.cbCamController.isViewer == true){
+            let userInfo = ["data":data, "peerID":peerID]
+            NSLog("empfang \(data.length.description)")
+            let receivedData:NSData = userInfo["data"] as! NSData
+            self.appDelegate.cbCamController.backCamera = UIImage(data: receivedData)
+            
+            
+        }
     }
     
-    
-    func session(session: MCSession!, didFinishReceivingResourceWithName resourceName: String!, fromPeer peerID: MCPeerID!, atURL localURL: NSURL!, withError error: NSError!) {
         
+    func session(session: MCSession!, didFinishReceivingResourceWithName resourceName: String!, fromPeer peerID: MCPeerID!, atURL localURL: NSURL!, withError error: NSError!) {
     }
     
     func session(session: MCSession!, didStartReceivingResourceWithName resourceName: String!, fromPeer peerID: MCPeerID!, withProgress progress: NSProgress!) {
@@ -72,7 +73,15 @@ class MPCHandler: NSObject, MCSessionDelegate {
     }
     
     func session(session: MCSession!, didReceiveStream stream: NSInputStream!, withName streamName: String!, fromPeer peerID: MCPeerID!) {
-        
+//        stream.delegate=self
+//        stream.scheduleInRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
+//        stream.open()
+//        dispatch_async(dispatch_get_main_queue(), {
+//            if (stream.hasBytesAvailable){
+//                NSLog("HallO")
+//            }
+//
+//        })
     }
     
     

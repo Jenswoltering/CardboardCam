@@ -16,12 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var mpcHandler:MPCHandler = MPCHandler()
-    //var avController:AVController = AVController()
-    //var cbCamController:CBCamController = CBCamController()
-    var motionController:MotionController = MotionController()
+    var cbCamController:CBCamController!
     var root: UIViewController?
     var storyboard: UIStoryboard?
-    var renderGUI: GlassViewController?
+    var renderGUI: GlassViewController!
     var renderImage :UIImage?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -29,19 +27,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //avController.setupCamera()
         //avController.startCapture()
         //motionController.start()
-        root = self.window!.rootViewController
-        storyboard = root!.storyboard
-        renderGUI = storyboard!.instantiateViewControllerWithIdentifier("glassViewController") as? GlassViewController!
+//        root = self.window!.rootViewController
+//        storyboard = root!.storyboard
+//        UIApplication.sharedApplication().idleTimerDisabled = true
+//        renderGUI = storyboard!.instantiateViewControllerWithIdentifier("glassViewController") as? GlassViewController!
         renderImage=nil
-        NSLog(renderGUI!.title!)
+        //NSLog(renderGUI!.title!)
+//        self.motionKit.getAttitudeFromDeviceMotion(interval: 0.1) { (attitude) -> () in
+//            var roll = attitude.roll
+//            var pitch = attitude.pitch
+//            var yaw = attitude.yaw
+//            var rotationMatrix = attitude.rotationMatrix
+//            var quaternion = attitude.quaternion
+//            println("\(yaw)")
+//        }
+        
         return true
     }
     
-    func redraw(){
-        NSLog("Redraw")
-        renderGUI!.videoLayerRight.backgroundColor = UIColor.blueColor().CGColor
-        
-    }
     
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -92,7 +92,7 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
         dispatch_async(dispatch_get_main_queue()){
             NSLog("test")
                 //var image = CIImage(CVPixelBuffer: imageBuffer)
-                self.appDelegate.renderGUI!.updateView(processedImage)
+                //self.appDelegate.renderGUI!.updateView(processedImage)
                 //self.appDelegate!.renderGUI?.videoLayerLeft.contents=processedImage
                 // self.customPreviewLayerLeft.contents = dstImage
                 // self.customPreviewLayerRight.contents = dstImage

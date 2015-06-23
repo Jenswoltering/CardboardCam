@@ -9,7 +9,7 @@
 import UIKit
 
 class initViewController: UIViewController {
-
+    var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
     
@@ -26,6 +26,8 @@ class initViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        appDelegate.cbCamController.cameraController.startCamera()
+        appDelegate.cbCamController.startBeaconDetector()
         progressBar.setProgress(0, animated: true)
         progressLabel.text = "0%"
         self.counter = 0
