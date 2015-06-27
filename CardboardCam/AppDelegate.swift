@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //motionController.start()
 //        root = self.window!.rootViewController
 //        storyboard = root!.storyboard
-//        UIApplication.sharedApplication().idleTimerDisabled = true
+        UIApplication.sharedApplication().idleTimerDisabled = true
 //        renderGUI = storyboard!.instantiateViewControllerWithIdentifier("glassViewController") as? GlassViewController!
         renderImage=nil
         //NSLog(renderGUI!.title!)

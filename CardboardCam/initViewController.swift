@@ -27,6 +27,9 @@ class initViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         appDelegate.cbCamController.cameraController.startCamera()
+        if appDelegate.cbCamController.isViewer == true {
+            appDelegate.cbCamController.startMotionDetection()
+        }
         appDelegate.cbCamController.startBeaconDetector()
         progressBar.setProgress(0, animated: true)
         progressLabel.text = "0%"

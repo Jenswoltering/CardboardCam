@@ -83,6 +83,7 @@ class ConnectionViewController: UIViewController,MCBrowserViewControllerDelegate
             senderSwitch.hidden = false
             empfaengerSwitch.hidden = false
             appDelegate.cbCamController = CBCamController()
+            appDelegate.cbCamController.isViewer = empfaengerSwitch.on
            
                     }
         if state == MCSessionState.NotConnected.rawValue{

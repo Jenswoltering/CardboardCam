@@ -16,7 +16,7 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
     var session:MCSession!
     var browser:MCBrowserViewController!
     var advertiser:MCAdvertiserAssistant? = nil
-    var mode = MCSessionSendDataMode.Unreliable
+    var mode = MCSessionSendDataMode.Reliable
     var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
     
     func setupPeerWithDisplayName (displayName:String){
@@ -56,7 +56,6 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
         if (self.appDelegate.cbCamController.isViewer == true){
             let userInfo = ["data":data, "peerID":peerID]
-            NSLog("empfang \(data.length.description)")
             let receivedData:NSData = userInfo["data"] as! NSData
             self.appDelegate.cbCamController.backCamera = UIImage(data: receivedData)
             

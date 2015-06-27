@@ -10,8 +10,8 @@
 		7318F7801B0F6EB400E68A0A /* GlassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F77F1B0F6EB400E68A0A /* GlassViewController.swift */; };
 		7318F7821B0F742F00E68A0A /* MotionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F7811B0F742F00E68A0A /* MotionController.swift */; };
 		7318F7841B0F89E500E68A0A /* MotionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F7831B0F89E500E68A0A /* MotionKit.swift */; };
-		731D30D81B13731900F11DEB /* CBCamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731D30D71B13731900F11DEB /* CBCamController.swift */; };
 		733255F61B38382200A014F0 /* BeaconDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733255F51B38382100A014F0 /* BeaconDetector.swift */; };
+		733255F71B39304900A014F0 /* CBCamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731D30D71B13731900F11DEB /* CBCamController.swift */; };
 		734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B771B0E54FE00D998E7 /* AppDelegate.swift */; };
 		734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B791B0E54FF00D998E7 /* CardboardCam.xcdatamodeld */; };
 		734D4B7D1B0E54FF00D998E7 /* ConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */; };
@@ -245,6 +245,7 @@
 			files = (
 				734D4BA11B0F44AA00D998E7 /* AVController.swift in Sources */,
 				733255F61B38382200A014F0 /* BeaconDetector.swift in Sources */,
+				733255F71B39304900A014F0 /* CBCamController.swift in Sources */,
 				734D4B9F1B0F247A00D998E7 /* initViewController.swift in Sources */,
 				7318F7801B0F6EB400E68A0A /* GlassViewController.swift in Sources */,
 				7318F7821B0F742F00E68A0A /* MotionController.swift in Sources */,
@@ -252,7 +253,6 @@
 				734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */,
 				734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */,
 				734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */,
-				731D30D81B13731900F11DEB /* CBCamController.swift in Sources */,
 				736DA1DD1B2E07B800956500 /* CameraSessionController.swift in Sources */,
 				7318F7841B0F89E500E68A0A /* MotionKit.swift in Sources */,
 			);

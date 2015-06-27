@@ -14,12 +14,13 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
     let locationManager = CLLocationManager()
     var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
     var readyToChangeMode = true
+    var counterToUnlockMode = 0
     
     override init(){
         super.init()
         
         let uuidString = "EBEFD083-70A2-47C8-9837-E7B5634DF524"
-        let beaconIdentifier = "reset Beacon"
+        let beaconIdentifier = "resetBeacon"
         let beaconUUID:NSUUID = NSUUID(UUIDString: uuidString)!
         let beaconRegion:CLBeaconRegion = CLBeaconRegion(proximityUUID: beaconUUID,
             identifier: beaconIdentifier)
@@ -44,6 +45,14 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
         didRangeBeacons beacons: [AnyObject]!,
         inRegion region: CLBeaconRegion!) {
             NSLog("didRangeBeacons");
+            if readyToChangeMode == false{
+                counterToUnlockMode=counterToUnlockMode+1
+                if counterToUnlockMode==5{
+                    readyToChangeMode=true
+                }
+            }else{
+                counterToUnlockMode=0
+            }
             var message:String = ""
             if(beacons.count > 0) {
                 let nearestBeacon:CLBeacon = beacons[0] as! CLBeacon
@@ -56,14 +65,18 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
                     readyToChangeMode = true
                     message = "You are near the beacon"
                 case CLProximity.Immediate:
-                    if readyToChangeMode == true {
-                        appDelegate.cbCamController.useBackCamera = !appDelegate.cbCamController.useBackCamera
-                        readyToChangeMode = false
+                    NSLog(nearestBeacon.rssi.description)
+                    NSLog(nearestBeacon.major.description)
+                    NSLog(nearestBeacon.minor.description)
+                    if nearestBeacon.rssi >= -50 {
+                        if readyToChangeMode == true {
+                            appDelegate.cbCamController.useBackCamera = !appDelegate.cbCamController.useBackCamera
+                            readyToChangeMode = false
+                        }
                     }
-                    
                     message = "You are in the immediate proximity of the beacon"
                 case CLProximity.Unknown:
-                    readyToChangeMode = true
+                    // readyToChangeMode = true
                     return
                 }
             } else {

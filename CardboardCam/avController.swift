@@ -71,7 +71,7 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
         dataOutput.alwaysDiscardsLateVideoFrames = true
         dataOutput.videoSettings = [ kCVPixelBufferPixelFormatTypeKey: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange ]
         if (captureSession.canAddOutput(dataOutput)) {
-            NSLog("can")
+            //NSLog("can")
             captureSession.addOutput(dataOutput)
         }
         dataOutput.setSampleBufferDelegate(self, queue: self.queue)

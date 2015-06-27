@@ -13,26 +13,25 @@ import CoreGraphics
 import CoreMedia
 
 
-
-
 class CBCamController: NSObject,CameraSessionControllerDelegate {
     var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
     var cameraController : CameraSessionController!
     var frontCamera :UIImage!
+    var motionKit :MotionKit!
     var beaconDetector :BeaconDetector!
     var backCamera :UIImage!
     var backCameraBuffer :[NSData]! = []
     var renderImage :UIImage!
+    var useFilter1 :Bool!
     var isViewer :Bool!
     var isRunning :Bool!
     var useBackCamera :Bool!
+    var filterStaerke :Double!
     var image :CIImage?
     var counter :Int = 0
     var messageData :NSData!
     let context = CIContext(options:[kCIContextUseSoftwareRenderer : false])
     var filter = CIFilter(name: "CIGaussianBlur")
-    
-    
     
     var GlobalMainQueue: dispatch_queue_t {
         return dispatch_get_main_queue()
@@ -58,9 +57,21 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         super.init()
         isViewer = true
         useBackCamera=true
+        useFilter1 = false
         isRunning = true
         cameraController = CameraSessionController()
         cameraController.sessionDelegate = self
+        motionKit = MotionKit()
+    }
+    
+    func startMotionDetection(){
+        motionKit.getAttitudeFromDeviceMotion(interval: 0.5) { (attitude) -> () in
+            
+            
+        }
+    }
+    func stopMotionDetection(){
+        motionKit.stopDeviceMotionUpdates()
     }
     
     func startBeaconDetector(){
@@ -69,10 +80,10 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         }
     }
     
-    
     func setFrontCameraImage(image :UIImage){
         self.frontCamera = image
     }
+    
     func setBackCameraBufferImage(image :NSData){
         if (backCameraBuffer.count >= 15) {
             backCameraBuffer.removeAll(keepCapacity: false)
@@ -90,15 +101,21 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     
     func cameraSessionDidOutputSampleBuffer(sampleBuffer: CMSampleBuffer!) {
         self.run()
+        let outputImage :CIImage!
         var imageBuffer :CVImageBufferRef =  CMSampleBufferGetImageBuffer(sampleBuffer);
         CVPixelBufferLockBaseAddress(imageBuffer,0)
         var ciImage = CIImage(CVPixelBuffer: imageBuffer)
         if (isViewer==true){
-                var cgImg = self.context.createCGImage(ciImage, fromRect: ciImage.extent())
+            if useFilter1 == true {
+                outputImage = self.processImage(ciImage, effect: 0, value: 5)
+                
+            } else {
+                outputImage =  ciImage
+            }
+                var cgImg = self.context.createCGImage(outputImage, fromRect: outputImage.extent())
                 self.setFrontCameraImage(UIImage(CGImage: cgImg)!)
         }else{
-                //self.processImage(ciImage, effect: 0, value: 15)
-                let outputImage =  ciImage
+                outputImage =  ciImage
                 var cgImg = self.context.createCGImage(outputImage, fromRect: outputImage.extent())
                 var uiImage = UIImage(CGImage: cgImg)
                 var compressedImage = UIImageJPEGRepresentation(uiImage, 0.45)
@@ -133,17 +150,13 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
             }
             
             //Wenn Sender dann Sende Bild auf Kamerabuffer an Empfänger
-            dispatch_async(GlobalUserInteractiveQueue, { () -> Void in
+            dispatch_sync(GlobalMainQueue, { () -> Void in
                 if (self.isViewer==false) && (self.backCameraBuffer.isEmpty == false){
                     self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
                     self.backCameraBuffer.removeAtIndex(0)
                 }
 
             })
-
-        
-            
-            
         //UpdateGUI
       
     }
