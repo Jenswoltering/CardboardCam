@@ -60,7 +60,14 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
             self.appDelegate.cbCamController.backCamera = UIImage(data: receivedData)
             
             
-        }else{
+        }
+        if (self.appDelegate.cbCamController.isViewer == false){
+            if data != nil{
+                let parameters = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
+                appDelegate.cbCamController.useBackCamera = parameters.objectForKey("useBackCamera")?.boolValue
+                appDelegate.cbCamController.drehung = parameters.objectForKey("drehung")!.doubleValue
+                appDelegate.cbCamController.useFilter1 = parameters.objectForKey("useFilter1")?.boolValue
+            }
             
         }
     }

@@ -166,9 +166,11 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         return self.filter.outputImage
     }
     
-    func prepareParameterForMessage() -> NSDictionary{
-        var parameters = ["useBackcamera": self.useBackCamera, "useFilter":self.useFilter1]
-        return parameters
+    func prepareParameterForMessage() -> NSData{
+        var parameters = ["useBackcamera": self.useBackCamera, "drehung": self.drehung, "useFilter":self.useFilter1]
+        var parameterMessage = NSJSONSerialization.dataWithJSONObject(parameters, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
+
+        return parameterMessage!
     }
     
     func run(){
@@ -185,6 +187,10 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
                         renderImage=frontCamera
                     }
                 }
+                dispatch_sync(GlobalMainQueue, { () -> Void in
+                    self.appDelegate.mpcHandler.session.sendData(self.prepareParameterForMessage(), toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
+                })
+
                 
             }
             
