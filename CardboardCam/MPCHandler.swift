@@ -60,6 +60,8 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
             self.appDelegate.cbCamController.backCamera = UIImage(data: receivedData)
             
             
+        }else{
+            
         }
     }
     

@@ -22,6 +22,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var backCamera :UIImage!
     var backCameraBuffer :[NSData]! = []
     var renderImage :UIImage!
+    var drehung :Double = 0
     var useFilter1 :Bool!
     var isViewer :Bool!
     var isRunning :Bool!
@@ -29,6 +30,8 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var filterStaerke :Double!
     var image :CIImage?
     var counter :Int = 0
+    var pulsingDirection :Bool = true
+    var pulsingValue :Double = 0
     var messageData :NSData!
     let context = CIContext(options:[kCIContextUseSoftwareRenderer : false])
     var filter = CIFilter(name: "CIGaussianBlur")
@@ -62,16 +65,48 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         cameraController = CameraSessionController()
         cameraController.sessionDelegate = self
         motionKit = MotionKit()
+        self.startMotionDetection()
     }
     
     func startMotionDetection(){
-        motionKit.getAttitudeFromDeviceMotion(interval: 0.5) { (attitude) -> () in
-            
-            
+        motionKit.getAttitudeFromDeviceMotion(interval: 0.2) { (attitude) -> () in
+            var yaw = attitude.yaw
+            self.drehung = self.normalisiereInput(yaw)
+            NSLog(yaw.description)
         }
     }
+    
+    
+    func normalisiereInput(input :Double)->Double{
+        var schwellwert :Double = 15
+        var maxWert :Double = 360
+        var output :Double
+        
+        output = input / maxWert
+       
+        return output
+        
+    }
+    
     func stopMotionDetection(){
         motionKit.stopDeviceMotionUpdates()
+        self.drehung=0
+    }
+    
+    func filterPulsing()->Double{
+        if pulsingDirection == true {
+            pulsingValue=pulsingValue+0.1
+            if pulsingValue >= 10{
+                pulsingDirection=false
+            }
+        }else{
+            pulsingValue=pulsingValue-0.1
+            if pulsingValue <= 0{
+                pulsingDirection=true
+            }
+
+        }
+        return pulsingValue
     }
     
     func startBeaconDetector(){
@@ -107,7 +142,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         var ciImage = CIImage(CVPixelBuffer: imageBuffer)
         if (isViewer==true){
             if useFilter1 == true {
-                outputImage = self.processImage(ciImage, effect: 0, value: 5)
+                outputImage = self.processImage(ciImage, effect: 0, value: self.filterPulsing())
                 
             } else {
                 outputImage =  ciImage
@@ -131,6 +166,10 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         return self.filter.outputImage
     }
     
+    func prepareParameterForMessage() -> NSDictionary{
+        var parameters = ["useBackcamera": self.useBackCamera, "useFilter":self.useFilter1]
+        return parameters
+    }
     
     func run(){
             // Wenn Viewer dann lade Bild in den RenderBuffer
