@@ -24,17 +24,22 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var renderImage :UIImage!
     var drehung :Double = 0
     var useFilter1 :Bool!
+    var useFilter2 :Bool!
+    var useFilter3 :Bool!
+    var useFilter4 :Bool!
+    var useFilter5 :Bool!
     var isViewer :Bool!
     var isRunning :Bool!
     var useBackCamera :Bool!
     var filterStaerke :Double!
+    var filterColor :CIColor!
     var image :CIImage?
     var counter :Int = 0
     var pulsingDirection :Bool = true
     var pulsingValue :Double = 0
     var messageData :NSData!
     let context = CIContext(options:[kCIContextUseSoftwareRenderer : false])
-    var filter = CIFilter(name: "CIGaussianBlur")
+    var filter = CIFilter(name: "CIColorMonochrome")
     
     var GlobalMainQueue: dispatch_queue_t {
         return dispatch_get_main_queue()
@@ -61,13 +66,19 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         isViewer = true
         useBackCamera=true
         useFilter1 = false
+        useFilter2 = true
+        useFilter3 = false
+        useFilter4 = false
+        useFilter5 = false
         isRunning = true
+        filterColor = CIColor(red: 1.0, green: 1.0, blue: 1.0)
         cameraController = CameraSessionController()
         cameraController.sessionDelegate = self
         motionKit = MotionKit()
-        self.startMotionDetection()
+        //self.startMotionDetection()
     }
     
+    //Kann weg
     func startMotionDetection(){
         motionKit.getAttitudeFromDeviceMotion(interval: 0.2) { (attitude) -> () in
             var yaw = attitude.yaw
@@ -76,23 +87,23 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         }
     }
     
-    
+    //Kann weg
     func normalisiereInput(input :Double)->Double{
         var schwellwert :Double = 15
         var maxWert :Double = 360
         var output :Double
-        
         output = input / maxWert
-       
         return output
         
     }
     
+    //Kann weg
     func stopMotionDetection(){
         motionKit.stopDeviceMotionUpdates()
         self.drehung=0
     }
     
+    //Kann weg
     func filterPulsing()->Double{
         if pulsingDirection == true {
             pulsingValue=pulsingValue+0.1
@@ -140,36 +151,72 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         var imageBuffer :CVImageBufferRef =  CMSampleBufferGetImageBuffer(sampleBuffer);
         CVPixelBufferLockBaseAddress(imageBuffer,0)
         var ciImage = CIImage(CVPixelBuffer: imageBuffer)
+        if useFilter2 == true {
+            outputImage = self.processImage(ciImage, effect: 0, value: 1.0, farbe: self.filterColor)
+            
+        } else {
+            outputImage =  ciImage
+        }
+        var cgImg = self.context.createCGImage(outputImage, fromRect: outputImage.extent())
+        
+        
+        
         if (isViewer==true){
-            if useFilter1 == true {
-                outputImage = self.processImage(ciImage, effect: 0, value: self.filterPulsing())
-                
-            } else {
-                outputImage =  ciImage
-            }
-                var cgImg = self.context.createCGImage(outputImage, fromRect: outputImage.extent())
                 self.setFrontCameraImage(UIImage(CGImage: cgImg)!)
         }else{
-                outputImage =  ciImage
-                var cgImg = self.context.createCGImage(outputImage, fromRect: outputImage.extent())
-                var uiImage = UIImage(CGImage: cgImg)
-                var compressedImage = UIImageJPEGRepresentation(uiImage, 0.45)
-                self.setBackCameraBufferImage(compressedImage!)
+            var uiImage = UIImage(CGImage: cgImg)
+            var compressedImage = UIImageJPEGRepresentation(uiImage, 0.45)
+            self.setBackCameraBufferImage(compressedImage!)
         }
         self.run()
     }
     
     
-    func processImage(inputImage :CIImage, effect :Int, value :Double) -> CIImage{
-        self.filter.setValue(inputImage, forKey: kCIInputImageKey)
-        self.filter.setValue(value, forKey: kCIInputRadiusKey)
-        return self.filter.outputImage
+    func processImage(inputImage :CIImage, effect :Int, value :Double, farbe :CIColor) -> CIImage{
+        var tempFilter :CIFilter!
+        if self.useFilter1 == true {
+            self.filter.setValue(inputImage, forKey: kCIInputImageKey)
+            self.filter.setValue(farbe, forKey: kCIInputColorKey)
+            self.filter.setValue(value, forKey: kCIInputIntensityKey)
+            return self.filter.outputImage
+        }
+        if self.useFilter2 == true {
+            tempFilter = CIFilter(name: "CITorusLensDistortion")
+            tempFilter.setValue(inputImage, forKey: kCIInputImageKey)
+            tempFilter.setValue([320, 240], forKey: kCIAttributeTypePosition)
+            //radius
+            tempFilter.setValue(160, forKey: kCIAttributeTypeDistance)
+            return tempFilter.outputImage
+        }
+        if self.useFilter3 == true {
+            tempFilter = CIFilter(name: "CIColorInvert")
+            tempFilter.setValue(inputImage, forKey: kCIInputImageKey)
+            return tempFilter.outputImage
+            
+        }
+        if self.useFilter4 == true {
+            tempFilter = CIFilter(name: "CIPinchDistortion")
+            tempFilter.setValue(inputImage, forKey: kCIInputImageKey)
+            tempFilter.setValue([320, 240], forKey: kCIAttributeTypePosition)
+            tempFilter.setValue(160, forKey: kCIAttributeTypeDistance)
+            tempFilter.setValue(0.5, forKey: kCIAttributeTypeScalar)
+            return tempFilter.outputImage
+            
+        }
+        if self.useFilter5 == true {
+            tempFilter = CIFilter(name: "CIColorCrossPolynomial")
+            tempFilter.setValue(inputImage, forKey: kCIInputImageKey)
+            //ToDO Vektoren eintragen
+            return tempFilter.outputImage
+        }
+        else {
+            return inputImage
+        }
     }
     
     func prepareParameterForMessage() -> NSData{
-        var parameters = ["useBackcamera": self.useBackCamera, "drehung": self.drehung, "useFilter":self.useFilter1]
+        var parameters = ["useBackcamera": self.useBackCamera.description, "farbeRot": self.filterColor.red().description, "farbeGruen": self.filterColor.green().description, "farbeBlaue": self.filterColor.blue().description, "useFilter":self.useFilter1.description]
         var parameterMessage = NSJSONSerialization.dataWithJSONObject(parameters, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
-
         return parameterMessage!
     }
     
@@ -179,29 +226,27 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
                 if (useBackCamera == true){
                     if (backCamera != nil){
                         renderImage=backCamera
-                    }
-                    
-                    
+                    }                    
                 }else{
                     if (frontCamera != nil){
                         renderImage=frontCamera
                     }
                 }
-                dispatch_sync(GlobalMainQueue, { () -> Void in
-                    self.appDelegate.mpcHandler.session.sendData(self.prepareParameterForMessage(), toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
-                })
+//                dispatch_sync(GlobalMainQueue, { () -> Void in
+//                    self.appDelegate.mpcHandler.session.sendData(self.prepareParameterForMessage(), toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
+//                })
 
                 
             }
             
             //Wenn Sender dann Sende Bild auf Kamerabuffer an Empfänger
-            dispatch_sync(GlobalMainQueue, { () -> Void in
-                if (self.isViewer==false) && (self.backCameraBuffer.isEmpty == false){
+            if (self.isViewer==false) && (self.backCameraBuffer.isEmpty == false){
+                    dispatch_sync(GlobalMainQueue, { () -> Void in
                     self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
                     self.backCameraBuffer.removeAtIndex(0)
-                }
 
-            })
+                    })
+            }
         //UpdateGUI
       
     }

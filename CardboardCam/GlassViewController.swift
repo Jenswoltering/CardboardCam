@@ -25,6 +25,7 @@ class GlassViewController: UIViewController{
     var counter :Int = 0
     var timer  = NSTimer()
     let animationDuration : NSTimeInterval = 1.0
+     var imagesForAnimation :[UIImage] = []
 
     
     var GlobalMainQueue: dispatch_queue_t {
@@ -49,6 +50,8 @@ class GlassViewController: UIViewController{
     
     @IBOutlet weak var leftEye: UIView!
     @IBOutlet weak var leftEyeImage: UIImageView!
+    @IBOutlet weak var animationRightEye: UIImageView!
+    @IBOutlet weak var animationLeftEye: UIImageView!
     @IBOutlet weak var rightEyeImage: UIImageView!
     @IBOutlet weak var rightEye: UIView!
     
@@ -76,13 +79,42 @@ class GlassViewController: UIViewController{
 //        rightEyeImage.animationDuration=animationDuration
 //        leftEyeImage.startAnimating()
 //        rightEyeImage.startAnimating()
+        rightEye.addSubview(animationRightEye)
+        rightEye.bringSubviewToFront(animationRightEye)
         if appDelegate.cbCamController.isViewer == true {
             timer = NSTimer.scheduledTimerWithTimeInterval(0.04, target: self, selector: Selector("updateImages"), userInfo: nil, repeats: true)
+//            loadAnimationImages()
+//            startIntroAnimation()
         }
+        
+        
         
     }
     
+    func startIntroAnimation(){
+        animationRightEye.animationImages = self.imagesForAnimation
+        animationLeftEye.animationImages = self.imagesForAnimation
+//        animationRightEye.animationRepeatCount = 1
+//        animationLeftEye.animationRepeatCount = 1
+        animationLeftEye.startAnimating()
+        animationRightEye.startAnimating()
+    }
     
+    func loadAnimationImages(){
+        let frameCount = 460
+        var imageNames:[String] = []
+        let fixedName = "animation_"
+        var frameNumber:Int
+       
+        
+        for frameNumber = 0; frameNumber <= frameCount; ++frameNumber{
+            imageNames.append( fixedName +  String(format: "%05d", frameNumber))
+            self.imagesForAnimation.append(UIImage(named: imageNames.last!)!)
+        }
+        
+        
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

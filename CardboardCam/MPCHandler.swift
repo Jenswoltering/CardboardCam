@@ -16,7 +16,7 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
     var session:MCSession!
     var browser:MCBrowserViewController!
     var advertiser:MCAdvertiserAssistant? = nil
-    var mode = MCSessionSendDataMode.Reliable
+    var mode = MCSessionSendDataMode.Unreliable
     var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
     
     func setupPeerWithDisplayName (displayName:String){
@@ -58,15 +58,18 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
             let userInfo = ["data":data, "peerID":peerID]
             let receivedData:NSData = userInfo["data"] as! NSData
             self.appDelegate.cbCamController.backCamera = UIImage(data: receivedData)
-            
-            
         }
         if (self.appDelegate.cbCamController.isViewer == false){
             if data != nil{
                 let parameters = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
                 appDelegate.cbCamController.useBackCamera = parameters.objectForKey("useBackCamera")?.boolValue
-                appDelegate.cbCamController.drehung = parameters.objectForKey("drehung")!.doubleValue
+                var rot :NSString = parameters.objectForKey("farbeRot")!.description!
+                var gruen :NSString = parameters.objectForKey("farbeGruen")!.description!
+                var blau :NSString = parameters.objectForKey("farbeBlau")!.description!
+                
+                appDelegate.cbCamController.filterColor = CIColor(red: CGFloat(rot.floatValue), green: CGFloat(gruen.floatValue) , blue: CGFloat(blau.floatValue) )
                 appDelegate.cbCamController.useFilter1 = parameters.objectForKey("useFilter1")?.boolValue
+                NSLog(appDelegate.cbCamController.useFilter1.description)
             }
             
         }

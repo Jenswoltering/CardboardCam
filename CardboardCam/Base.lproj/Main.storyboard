@@ -105,7 +105,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="JRh-t7-Wdv" kind="modal" id="SDa-h7-KwL"/>
+                                    <segue destination="JRh-t7-Wdv" kind="modal" id="8UC-Y7-XNB"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -115,6 +115,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="nextButton" destination="tMg-FI-A7B" id="oPD-lh-rge"/>
                         <outlet property="progressBar" destination="ssx-rI-gH6" id="1aW-7F-js4"/>
                         <outlet property="progressLabel" destination="UBu-Mq-twd" id="X1z-pF-vln"/>
                     </connections>
@@ -141,6 +142,9 @@
                                     <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WCt-Z4-eA9">
                                         <rect key="frame" x="0.0" y="0.0" width="333" height="375"/>
                                     </imageView>
+                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SaN-YE-UzE">
+                                        <rect key="frame" x="0.0" y="0.0" width="333" height="375"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -148,6 +152,9 @@
                                 <rect key="frame" x="334" y="0.0" width="333" height="375"/>
                                 <subviews>
                                     <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xUv-tR-gKz">
+                                        <rect key="frame" x="0.0" y="0.0" width="333" height="375"/>
+                                    </imageView>
+                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="44q-kQ-bXw">
                                         <rect key="frame" x="0.0" y="0.0" width="333" height="375"/>
                                     </imageView>
                                 </subviews>
@@ -161,6 +168,8 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="animationLeftEye" destination="SaN-YE-UzE" id="d4C-f3-7uy"/>
+                        <outlet property="animationRightEye" destination="44q-kQ-bXw" id="8cp-m4-kSI"/>
                         <outlet property="leftEye" destination="fb5-mn-bf5" id="Uic-xl-TKb"/>
                         <outlet property="leftEyeImage" destination="WCt-Z4-eA9" id="2EK-j8-wBo"/>
                         <outlet property="rightEye" destination="ju6-qT-t8q" id="Fnf-81-Hzl"/>

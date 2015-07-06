@@ -12,6 +12,7 @@ class initViewController: UIViewController {
     var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
+    @IBOutlet weak var nextButton: UIButton!
     
     var counter:Int = 0 {
         didSet {
@@ -27,25 +28,22 @@ class initViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         appDelegate.cbCamController.cameraController.startCamera()
-        if appDelegate.cbCamController.isViewer == true {
-            appDelegate.cbCamController.startMotionDetection()
-        }
         appDelegate.cbCamController.startBeaconDetector()
         progressBar.setProgress(0, animated: true)
         progressLabel.text = "0%"
         self.counter = 0
-        for i in 0..<100 {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-                sleep(5)
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.counter++
-                    return
-                })
-            })
-            
-            
-        }
-    
+//        for i in 0..<100 {
+//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
+//                sleep(5)
+//                dispatch_async(dispatch_get_main_queue(), {
+//                    self.counter++
+//                    return
+//                })
+//            })
+//            
+//            
+//        }
+       // nextButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
 
         // Do any additional setup after loading the view.
     }
