@@ -12,7 +12,7 @@ import CoreMedia
 import CoreImage
 
 @objc protocol CameraSessionControllerDelegate {
-	optional func cameraSessionDidOutputSampleBuffer(sampleBuffer: CMSampleBuffer!)
+    optional func cameraSessionDidOutputSampleBuffer(sampleBuffer: CMSampleBuffer!)
 }
 
 class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {

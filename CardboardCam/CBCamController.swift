@@ -35,6 +35,8 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var pulsingValue :Double = 0
     var messageData :NSData!
     var messageTimer  = NSTimer()
+    var frameTimer = NSTimer()
+    var buffer :Int = 0
     let context = CIContext(options:[kCIContextUseSoftwareRenderer : false])
     let parametersTorus : CIParameters = [
         kCIInputRadiusKey:100,
@@ -55,6 +57,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var filterPinchDistortion :CIFilter!
     var filterColorCross = CIFilter(name: "CIColorCrossPolynomial")
     var filterWrapper:[CIFilter]!
+    
     var GlobalMainQueue: dispatch_queue_t {
         return dispatch_get_main_queue()
     }
@@ -83,7 +86,6 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         isRunning = true
         cameraController = CameraSessionController()
         cameraController.sessionDelegate = self
-        motionKit = MotionKit()
 
         self.filterPinchDistortion = CIFilter(name: "CIPinchDistortion", withInputParameters: self.parametersPinch)
         //self.filterTorusLensDistortion = CIFilter(name: "CITorusLensDistortion", withInputParameters: self.parametersTorus)
@@ -101,16 +103,14 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
 //        self.filterPinchDistortion.setValue([320, 240], forKey: kCIAttributeTypePosition)
 //        self.filterPinchDistortion.setValue(160, forKey: kCIAttributeTypeDistance)
 //        self.filterPinchDistortion.setValue(0.5, forKey: kCIAttributeTypeScalar)
-        
-        setupTimer()
-        
-        
     }
     
     func setupTimer(){
         if self.isViewer == true {
             messageTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("sendStatusMessage"), userInfo: nil, repeats: true)
-            
+        }else{
+//            NSLog("Debug Timer")
+//            frameTimer = NSTimer.scheduledTimerWithTimeInterval(0.028, target: self, selector: Selector("sendFrame"), userInfo: nil, repeats: true)
         }
     }
     
@@ -163,14 +163,26 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
 
     }
     
+    func sendFrame(){
+        if self.backCameraBuffer.isEmpty == false{
+            if buffer == 15{
+                self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
+                self.backCameraBuffer.removeAtIndex(0)
+                buffer = 0
+            }else {
+                buffer = buffer + 1
+            }
+            
+        }
+    }
+    
     func cameraSessionDidOutputSampleBuffer(sampleBuffer: CMSampleBuffer!) {
-        self.run()
         let outputImage :CIImage!
         var imageBuffer :CVImageBufferRef =  CMSampleBufferGetImageBuffer(sampleBuffer);
         CVPixelBufferLockBaseAddress(imageBuffer,0)
         var ciImage = CIImage(CVPixelBuffer: imageBuffer)
         if useFilter == true {
-            outputImage = self.processImage(ciImage, value: 1.0)
+            outputImage = self.processImage(ciImage, value: 0.39)
             
         } else {
             outputImage =  ciImage
@@ -182,9 +194,11 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         if (isViewer==true){
                 self.setFrontCameraImage(UIImage(CGImage: cgImg)!)
         }else{
-            var uiImage = UIImage(CGImage: cgImg)
-            var compressedImage = UIImageJPEGRepresentation(uiImage, 0.45)
-            self.setBackCameraBufferImage(compressedImage!)
+            dispatch_async(GlobalUserInteractiveQueue, { () -> Void in
+                var uiImage = UIImage(CGImage: cgImg)
+                var compressedImage = UIImageJPEGRepresentation(uiImage, 0.4)
+                self.setBackCameraBufferImage(compressedImage!)
+            })
         }
         self.run()
     }
@@ -220,16 +234,20 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
                         renderImage=frontCamera
                     }
                 }
-                
             }
-            
             //Wenn Sender dann Sende Bild auf Kamerabuffer an Empfänger
             if (self.isViewer==false) && (self.backCameraBuffer.isEmpty == false){
-                    dispatch_sync(GlobalMainQueue, { () -> Void in
-                    self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
+                
+                dispatch_async(GlobalMainQueue, { () -> Void in
+                    if self.buffer <= 11 {
+//                    self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
+                    self.buffer = self.buffer + 1
+                    }else{
+                        self.buffer = 0
+                    }
                     self.backCameraBuffer.removeAtIndex(0)
+                })
 
-                    })
             }
         //UpdateGUI
       

@@ -61,7 +61,7 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
         }
         if (self.appDelegate.cbCamController.isViewer == false){
             if data != nil{
-                NSLog("Status erhalten")
+//                NSLog("Status erhalten")
                 let parameters = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
                 appDelegate.cbCamController.useBackCamera = parameters.objectForKey("useBackCamera")!.boolValue
                 appDelegate.cbCamController.useFilter = parameters.objectForKey("useFilter")!.boolValue
@@ -73,8 +73,8 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
                         }
                     }
                 }
-                NSLog(parameters.objectForKey("useFilter")!.description)
-                NSLog(parameters.objectForKey("filterName")!.description)
+//                NSLog(parameters.objectForKey("useFilter")!.description)
+//                NSLog(parameters.objectForKey("filterName")!.description)
                 
             }
             
