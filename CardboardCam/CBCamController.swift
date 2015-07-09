@@ -23,6 +23,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var backCamera :UIImage!
     var backCameraBuffer :[NSData] = []
     var backCameraBufferTransmit :[String:AnyObject] = ["":""]
+    var filterCollection :FilterCollection!
     var renderImage :UIImage!
     var drehung :Double = 0
     var filterToUse :CIFilter!
@@ -39,26 +40,15 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var frameTimer = NSTimer()
     var buffer :Int = 0
     let context = CIContext(options:[kCIContextUseSoftwareRenderer : false])
-    let parametersTorus : CIParameters = [
-        kCIInputRadiusKey:100,
-        kCIInputCenterKey:CIVector(CGPoint: CGPoint(x: 320, y: 240) ),
-        kCIInputScaleKey:0.5,
-        ]
-    let parametersPinch : CIParameters = [
-        kCIInputRadiusKey:160,
-        kCIInputCenterKey:CIVector(CGPoint:CGPoint(x: 320, y: 240)),
-        kCIInputScaleKey:0.5,
-       ]
-    
-    var filterMonochrome = CIFilter(name: "CIColorMonochrome")
-    //var filterTorusLensDistortion = CIFilter(name: "CITorusLensDistortion")
+    //======================================================================
+    //Filter deklarieren
+    var filterMonochrome :CIFilter!
     var filterTorusLensDistortion :CIFilter!
-    var filterColroInvert = CIFilter(name: "CIColorInvert")
-    //var filterPinchDistortion = CIFilter(name: "CIPinchDistortion")
+    var filterColroInvert :CIFilter!
     var filterPinchDistortion :CIFilter!
-    var filterColorCross = CIFilter(name: "CIColorCrossPolynomial")
+    var filterColorCross :CIFilter!
     var filterWrapper:[CIFilter]!
-    
+    //=====================================================================
     var GlobalMainQueue: dispatch_queue_t {
         return dispatch_get_main_queue()
     }
@@ -87,23 +77,19 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         isRunning = true
         cameraController = CameraSessionController()
         cameraController.sessionDelegate = self
-
-        self.filterPinchDistortion = CIFilter(name: "CIPinchDistortion", withInputParameters: self.parametersPinch)
-        //self.filterTorusLensDistortion = CIFilter(name: "CITorusLensDistortion", withInputParameters: self.parametersTorus)
-        //FilterMonochrom
-        self.filterMonochrome.setValue(CIColor(red: 0.0, green: 0.0, blue: 1.0), forKey: kCIInputColorKey)
-        self.filterMonochrome.setValue(1.0, forKey: kCIInputIntensityKey)
-        filterWrapper = [filterPinchDistortion,filterMonochrome,filterColroInvert,filterColorCross]
-        //FilterTorusLensDistortion
-//        var center = CGPoint(x: 320, y: 240)
-//        self.filterTorusLensDistortion.setValue(CIVector(CGPoint: center), forKey: kCIInputCenterKey)
-//        self.filterTorusLensDistortion.setValue(160, forKey: kCIAttributeTypeDistance)
-        //FilterColorInvert
-        //nichts zu Konfigurieren
-        //Filter PinchDistortion
-//        self.filterPinchDistortion.setValue([320, 240], forKey: kCIAttributeTypePosition)
-//        self.filterPinchDistortion.setValue(160, forKey: kCIAttributeTypeDistance)
-//        self.filterPinchDistortion.setValue(0.5, forKey: kCIAttributeTypeScalar)
+        filterCollection = FilterCollection()
+        self.filterMonochrome = filterCollection.colorMonochrome(UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0), intensity: 1.0)
+        self.filterPinchDistortion = filterCollection.pinchDistortion(CGPoint(x: 320, y: 240), radius: 160, scale: 0.5)
+        self.filterColroInvert = filterCollection.colorInvent()
+        self.filterTorusLensDistortion = filterCollection.torusLensDistortion(CGPoint(x: 320, y: 240), radius: 100, width: 20, refraction: 0.5)
+        var redArray : [CGFloat] = [1,0,0,0,0,0,0,0,0]
+        var greenArray :[CGFloat] = [0,1,0,0,0,0,0,0,0]
+        var blueArray :[CGFloat] = [0,0,1,0,0,0,0,0,0]
+        var redVector = CIVector(values: redArray, count: Int(redArray.count))
+        var greenVector = CIVector(values: greenArray, count: Int(greenArray.count))
+        var blueVector = CIVector(values: blueArray, count: Int(blueArray.count))
+        self.filterColorCross = filterCollection.colorCrossPolynomial(redVector, greenCoefficients: greenVector, blueCoefficients: blueVector)
+        filterWrapper = [filterPinchDistortion,filterMonochrome,filterColroInvert,filterColorCross, filterTorusLensDistortion]
     }
     
     func setupTimer(){
@@ -111,7 +97,6 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
             messageTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("sendStatusMessage"), userInfo: nil, repeats: true)
         }
     }
-    
     
     //Kann weg
     func filterPulsing()->Double{
@@ -160,7 +145,6 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         dispatch_async(GlobalUserInitiatedQueue, { () -> Void in
             self.appDelegate.mpcHandler.session.sendData(self.prepareParameterForMessage(), toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
         })
-
     }
     
     func cameraSessionDidOutputSampleBuffer(sampleBuffer: CMSampleBuffer!) {
@@ -176,8 +160,6 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
             outputImage =  ciImage
         }
         var cgImg = self.context.createCGImage(outputImage, fromRect: outputImage.extent())
-        
-        
         
         if (isViewer==true){
                 self.setFrontCameraImage(UIImage(CGImage: cgImg)!)

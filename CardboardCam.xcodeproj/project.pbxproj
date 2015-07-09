@@ -22,6 +22,7 @@
 		734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */; };
 		734D4B9F1B0F247A00D998E7 /* initViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B9E1B0F247A00D998E7 /* initViewController.swift */; };
 		734D4BA11B0F44AA00D998E7 /* AVController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4BA01B0F44AA00D998E7 /* AVController.swift */; };
+		73580E4F1B4EF8850077D420 /* FilterCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73580E4E1B4EF8850077D420 /* FilterCollection.swift */; };
 		736DA1DD1B2E07B800956500 /* CameraSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DA1DC1B2E07B700956500 /* CameraSessionController.swift */; };
 		73CB6FA31B4561630017FEAF /* Objekt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CB6FA21B4561630017FEAF /* Objekt.swift */; };
 		73CB750B1B47DECA0017FEAF /* animation_00000.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CB733E1B47DEC70017FEAF /* animation_00000.png */; };
@@ -517,6 +518,7 @@
 		734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCHandler.swift; sourceTree = "<group>"; };
 		734D4B9E1B0F247A00D998E7 /* initViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = initViewController.swift; sourceTree = "<group>"; };
 		734D4BA01B0F44AA00D998E7 /* AVController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVController.swift; sourceTree = "<group>"; };
+		73580E4E1B4EF8850077D420 /* FilterCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCollection.swift; sourceTree = "<group>"; };
 		736DA1DC1B2E07B700956500 /* CameraSessionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraSessionController.swift; sourceTree = "<group>"; };
 		73CB6FA21B4561630017FEAF /* Objekt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Objekt.swift; sourceTree = "<group>"; };
 		73CB733E1B47DEC70017FEAF /* animation_00000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animation_00000.png; sourceTree = "<group>"; };
@@ -1021,6 +1023,7 @@
 		734D4B741B0E54FE00D998E7 /* CardboardCam */ = {
 			isa = PBXGroup;
 			children = (
+				73580E4E1B4EF8850077D420 /* FilterCollection.swift */,
 				733255F51B38382100A014F0 /* BeaconDetector.swift */,
 				736DA1DC1B2E07B700956500 /* CameraSessionController.swift */,
 				734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */,
@@ -2099,6 +2102,7 @@
 				734D4B7D1B0E54FF00D998E7 /* ConnectionViewController.swift in Sources */,
 				734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */,
 				734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */,
+				73580E4F1B4EF8850077D420 /* FilterCollection.swift in Sources */,
 				73CB6FA31B4561630017FEAF /* Objekt.swift in Sources */,
 				734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */,
 				736DA1DD1B2E07B800956500 /* CameraSessionController.swift in Sources */,

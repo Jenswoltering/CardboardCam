@@ -40,11 +40,11 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
             identifier: beaconIdentifier)
         objektFilter0 = Objekt(pObjektUUID: "0", pObjektMinor: "0", pObjektMajor: "0", pfilter: appDelegate.cbCamController.filterColroInvert)
         objektFilter1 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "1",  pfilter : appDelegate.cbCamController.filterMonochrome)
-        //objektFilter2 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "1",  pfilter: appDelegate.cbCamController.filterTorusLensDistortion)
+        objektFilter2 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "1",  pfilter: appDelegate.cbCamController.filterTorusLensDistortion)
         objektFilter3 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterPinchDistortion)
         objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterColroInvert)
         
-        objektWrapper=[objektFilter1,objektFilter3,objektFilter4]
+        objektWrapper=[objektFilter1, objektFilter2, objektFilter3,objektFilter4]
         aktiverFilter = objektFilter0
         if(locationManager.respondsToSelector("requestAlwaysAuthorization")) {
             locationManager.requestAlwaysAuthorization()
