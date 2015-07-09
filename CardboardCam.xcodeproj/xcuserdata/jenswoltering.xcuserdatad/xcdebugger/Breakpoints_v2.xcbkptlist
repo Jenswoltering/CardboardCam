@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CardboardCam/BeaconDetector.swift"
-            timestampString = "457103844.924776"
+            timestampString = "457994387.383934"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "BeaconDetector"
             landmarkType = "3">
          </BreakpointContent>
@@ -74,29 +74,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CardboardCam/BeaconDetector.swift"
-            timestampString = "457103844.924776"
+            timestampString = "457996024.009209"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "init()"
             landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CardboardCam/BeaconDetector.swift"
-            timestampString = "457103844.924776"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "BeaconDetector"
-            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -112,22 +96,6 @@
             startingLineNumber = "67"
             endingLineNumber = "67"
             landmarkName = "viewDidLoad()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CardboardCam/Objekt.swift"
-            timestampString = "457534939.044734"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "run(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -154,13 +122,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CardboardCam/CBCamController.swift"
-            timestampString = "457895391.126593"
+            timestampString = "458125105.078649"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "215"
-            endingLineNumber = "215"
-            landmarkName = "processImage(_:effect:value:farbe:)"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
+            landmarkName = "processImage(_:value:)"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CardboardCam/CBCamController.swift"
+            timestampString = "458125105.078649"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
+            landmarkName = "prepareParameterForMessage()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CardboardCam.CBCamController.run (CardboardCam.CBCamController)() -&gt; ()"
+                  moduleName = "CardboardCam"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenswoltering/Documents/Studium/6%20Semster/MoSy/CardboardCam/CardboardCam/CBCamController.swift"
+                  timestampString = "457989353.346628"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "197"
+                  endingLineNumber = "197"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CardboardCam.CBCamController.(run (CardboardCam.CBCamController) -&gt; () -&gt; ()).(closure #1)"
+                  moduleName = "CardboardCam"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenswoltering/Documents/Studium/6%20Semster/MoSy/CardboardCam/CardboardCam/CBCamController.swift"
+                  timestampString = "457989353.346978"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "209"
+                  endingLineNumber = "209"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CardboardCam.CBCamController.(run (CardboardCam.CBCamController) -&gt; () -&gt; ()).(closure #2)"
+                  moduleName = "CardboardCam"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jenswoltering/Documents/Studium/6%20Semster/MoSy/CardboardCam/CardboardCam/CBCamController.swift"
+                  timestampString = "457989353.347206"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "220"
+                  endingLineNumber = "220"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

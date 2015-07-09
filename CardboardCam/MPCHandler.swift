@@ -61,15 +61,21 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
         }
         if (self.appDelegate.cbCamController.isViewer == false){
             if data != nil{
+                NSLog("Status erhalten")
                 let parameters = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
-                appDelegate.cbCamController.useBackCamera = parameters.objectForKey("useBackCamera")?.boolValue
-                var rot :NSString = parameters.objectForKey("farbeRot")!.description!
-                var gruen :NSString = parameters.objectForKey("farbeGruen")!.description!
-                var blau :NSString = parameters.objectForKey("farbeBlau")!.description!
+                appDelegate.cbCamController.useBackCamera = parameters.objectForKey("useBackCamera")!.boolValue
+                appDelegate.cbCamController.useFilter = parameters.objectForKey("useFilter")!.boolValue
+                if (parameters.objectForKey("filterName")!.description != "keinFilter"){
+                    var alleFilter = appDelegate.cbCamController.filterWrapper
+                    for einFilter in alleFilter {
+                        if einFilter.name() == parameters.objectForKey("filterName")!.description{
+                            appDelegate.cbCamController.filterToUse = einFilter
+                        }
+                    }
+                }
+                NSLog(parameters.objectForKey("useFilter")!.description)
+                NSLog(parameters.objectForKey("filterName")!.description)
                 
-                appDelegate.cbCamController.filterColor = CIColor(red: CGFloat(rot.floatValue), green: CGFloat(gruen.floatValue) , blue: CGFloat(blau.floatValue) )
-                appDelegate.cbCamController.useFilter1 = parameters.objectForKey("useFilter1")?.boolValue
-                NSLog(appDelegate.cbCamController.useFilter1.description)
             }
             
         }

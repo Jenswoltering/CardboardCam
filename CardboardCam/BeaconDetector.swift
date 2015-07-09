@@ -8,21 +8,29 @@
 import UIKit
 import Foundation
 import CoreLocation
+import CoreImage
+import CoreGraphics
 
 class BeaconDetector: NSObject, CLLocationManagerDelegate{
 
     let locationManager = CLLocationManager()
     var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
     var readyToChangeMode = true
+    var readyToChangeFilter = true
     var counterToUnlockMode = 0
-    var objektBlau :Objekt!
-    var objektRot :Objekt!
-    var objektGruen :Objekt!
+    var counterToUnlockFilter = 0
+    var objektFilter1 :Objekt!
+    var objektFilter2 :Objekt!
+    var objektFilter3 :Objekt!
+    var objektFilter4 :Objekt!
+    var objektWrapper :[Objekt] = []
     var lastProximity: CLProximity?
+    var counterInaktiv = 0
+
     
     override init(){
         super.init()
-        
+    
         let uuidString = "EBEFD083-70A2-47C8-9837-E7B5634DF524"
         let beaconIdentifier = "filterBeacons"
         let beaconUUID:NSUUID = NSUUID(UUIDString: uuidString)!
@@ -33,13 +41,13 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
         let beaconUUID2:NSUUID = NSUUID(UUIDString: uuidString2)!
         let beaconRegion2:CLBeaconRegion = CLBeaconRegion(proximityUUID: beaconUUID2,
             identifier: beaconIdentifier2)
-        objektBlau = Objekt(pObjektUUID: "EBEFD083-70A2-47C8-9837-E7B5634DF524", pObjektMinor: "1", pObjektMajor: "1", pFarbe: CIColor(red: 0.0, green: 0.0, blue: 1.0))
-        objektBlau.setZiel("EBEFD083-70A2-47C8-9837-E7B5634DF524",  pZielMinor: "2",  pZielMajor: "1")
+        objektFilter1 = Objekt(pObjektUUID: "EBEFD083-70A2-47C8-9837-E7B5634DF524", pObjektMinor: "1", pObjektMajor: "1",  pfilter : appDelegate.cbCamController.filterMonochrome)
+        //objektFilter2 = Objekt(pObjektUUID: "EBEFD083-70A2-47C8-9837-E7B5634DF524", pObjektMinor: "2", pObjektMajor: "1",  pfilter: appDelegate.cbCamController.filterTorusLensDistortion)
+        objektFilter3 = Objekt(pObjektUUID: "EBEFD083-70A2-47C8-9837-E7B5634DF524", pObjektMinor: "1", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterPinchDistortion)
+        objektFilter4 = Objekt(pObjektUUID: "EBEFD083-70A2-47C8-9837-E7B5634DF524", pObjektMinor: "2", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterColroInvert)
         
+        objektWrapper=[objektFilter1,objektFilter3,objektFilter4]
         
-        objektRot = Objekt(pObjektUUID: "EBEFD083-70A2-47C8-9837-E7B5634DF524", pObjektMinor: "1", pObjektMajor: "2", pFarbe: CIColor(red: 1.0, green: 0.0, blue: 0.0))
-        objektRot.setZiel("EBEFD083-70A2-47C8-9837-E7B5634DF524", pZielMinor: "2", pZielMajor: "2")
-
         if(locationManager.respondsToSelector("requestAlwaysAuthorization")) {
             locationManager.requestAlwaysAuthorization()
         }
@@ -55,39 +63,67 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
         didRangeBeacons beacons: [AnyObject]!,
         inRegion region: CLBeaconRegion!) {
         NSLog("didRangeBeacons");
+        if readyToChangeMode == false{
+                
+            counterToUnlockMode=counterToUnlockMode+1
+            if counterToUnlockMode >= 5{
+                readyToChangeMode=true
+            }
+        }else{
+                counterToUnlockMode=0
+        }
+        if readyToChangeFilter == false{
+                
+            counterToUnlockFilter=counterToUnlockFilter+1
+        
+            if counterToUnlockFilter >= 5{
+                readyToChangeFilter=true
+            }
+        }else{
+            counterToUnlockFilter=0
+            counterInaktiv = counterInaktiv + 1
+        }
+    
+            
         var message:String = ""
                 if(beacons.count > 0) {
                     for beacon in beacons{
-                        if beacon.proximity == CLProximity.Near {
-                            if beacon.major.description == objektBlau.objektMajor{
-                                self.objektBlau.run(beacon)
+                        var beaconUUID :NSUUID = beacon.proximityUUID
+                        NSLog(beaconUUID.UUIDString)
+                        NSLog(beacon.rssi.description)
+                        if (beacon.proximity == CLProximity.Near || beacon.proximity == CLProximity.Immediate) {
+                            for einObjekt in objektWrapper{
+                                if einObjekt.run(beacon)==true{
+                                    if readyToChangeFilter{
+                                        appDelegate.cbCamController.useFilter=true
+                                        appDelegate.cbCamController.filterToUse = einObjekt.filter
+                                        readyToChangeFilter=false
+                                    }
+                                }
+                                if (beaconUUID.UUIDString == "73676723-7400-0000-FFFF-0000FFFF0002" && beacon.rssi >= -60 && beacon.rssi != 0 ) {
+                                    if readyToChangeMode{
+                                        appDelegate.cbCamController.useBackCamera = !appDelegate.cbCamController.useBackCamera
+                                        readyToChangeMode=false
+                                    }
+                                    
+                                }
                             }
-                            if beacon.major.description == objektRot.objektMajor{
-                                self.objektRot.run(beacon)
-                            }
-                            
                         }//ENDIF near
                         else {
-                            if (objektBlau.objektAktiv == true && objektBlau.inaktivZaehler>=4){
-                                appDelegate.cbCamController.useFilter1=false
-                                objektBlau.objektAktiv=false
-                            }
-                            if (objektRot.objektAktiv == true && objektRot.inaktivZaehler>=4){
-                                appDelegate.cbCamController.useFilter1=false
-                                objektRot.objektAktiv=false
-                            }
-
+                           
                         }
                     }//ENDLOOP Alle Beacons
-                    NSLog("ObjektBlau")
-                    NSLog(objektBlau.objektRSSI.description)
-                    NSLog(objektBlau.zielRSSI.description)
-                    NSLog(objektBlau.imZiel.description)
-                    NSLog("ObjektRot")
-                    NSLog(objektRot.objektRSSI.description)
-                    NSLog(objektRot.zielRSSI.description)
-                    NSLog(objektRot.imZiel.description)
-                }//ENDIF Beacons endeckt
+                    if readyToChangeFilter{
+                        if counterInaktiv >= 5{
+                            appDelegate.cbCamController.useFilter = false
+                            readyToChangeFilter = false
+                            counterToUnlockFilter = 0
+                            counterInaktiv = 0
+                        }
+                    }
+                    
+            }//ENDIF Beacons endeckt
+            
     }
     
     
@@ -95,7 +131,6 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
         didEnterRegion region: CLRegion!) {
             manager.startRangingBeaconsInRegion(region as! CLBeaconRegion)
             manager.startUpdatingLocation()
-
             NSLog("You entered the region")
             
     }
