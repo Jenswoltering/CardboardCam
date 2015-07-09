@@ -239,11 +239,11 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
             if (self.isViewer==false) && (self.backCameraBuffer.isEmpty == false){
                 
                 dispatch_async(GlobalMainQueue, { () -> Void in
-                    if self.buffer <= 11 {
-//                    self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
-                    self.buffer = self.buffer + 1
+                    if self.buffer == 12 {
+                        self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
+                    self.buffer = 0
                     }else{
-                        self.buffer = 0
+                        self.buffer = self.buffer + 1
                     }
                     self.backCameraBuffer.removeAtIndex(0)
                 })
