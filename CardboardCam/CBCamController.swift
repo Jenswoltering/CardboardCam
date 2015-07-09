@@ -21,7 +21,8 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var motionKit :MotionKit!
     var beaconDetector :BeaconDetector!
     var backCamera :UIImage!
-    var backCameraBuffer :[NSData]! = []
+    var backCameraBuffer :[NSData] = []
+    var backCameraBufferTransmit :[String:AnyObject] = ["":""]
     var renderImage :UIImage!
     var drehung :Double = 0
     var filterToUse :CIFilter!
@@ -108,9 +109,6 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     func setupTimer(){
         if self.isViewer == true {
             messageTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("sendStatusMessage"), userInfo: nil, repeats: true)
-        }else{
-//            NSLog("Debug Timer")
-//            frameTimer = NSTimer.scheduledTimerWithTimeInterval(0.028, target: self, selector: Selector("sendFrame"), userInfo: nil, repeats: true)
         }
     }
     
@@ -143,7 +141,9 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     }
     
     func setBackCameraBufferImage(image :NSData){
-        if (backCameraBuffer.count >= 15) {
+        if (backCameraBuffer.count >= 5) {
+            var buffer = NSKeyedArchiver.archivedDataWithRootObject(backCameraBuffer)
+            self.appDelegate.mpcHandler.session.sendData(buffer, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
             backCameraBuffer.removeAll(keepCapacity: false)
             backCameraBuffer.append(image)
         }else{
@@ -163,20 +163,8 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
 
     }
     
-    func sendFrame(){
-        if self.backCameraBuffer.isEmpty == false{
-            if buffer == 15{
-                self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
-                self.backCameraBuffer.removeAtIndex(0)
-                buffer = 0
-            }else {
-                buffer = buffer + 1
-            }
-            
-        }
-    }
-    
     func cameraSessionDidOutputSampleBuffer(sampleBuffer: CMSampleBuffer!) {
+        self.run()
         let outputImage :CIImage!
         var imageBuffer :CVImageBufferRef =  CMSampleBufferGetImageBuffer(sampleBuffer);
         CVPixelBufferLockBaseAddress(imageBuffer,0)
@@ -194,7 +182,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         if (isViewer==true){
                 self.setFrontCameraImage(UIImage(CGImage: cgImg)!)
         }else{
-            dispatch_async(GlobalUserInteractiveQueue, { () -> Void in
+            dispatch_sync(GlobalMainQueue, { () -> Void in
                 var uiImage = UIImage(CGImage: cgImg)
                 var compressedImage = UIImageJPEGRepresentation(uiImage, 0.4)
                 self.setBackCameraBufferImage(compressedImage!)
@@ -226,9 +214,10 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
             // Wenn Viewer dann lade Bild in den RenderBuffer
             if (isViewer == true){
                 if (useBackCamera == true){
-                    if (backCamera != nil){
-                        renderImage=backCamera
-                    }                    
+                    if (backCameraBuffer.isEmpty == false){
+                        renderImage=UIImage(data:backCameraBuffer.first!)
+                        backCameraBuffer.removeAtIndex(0)
+                    }
                 }else{
                     if (frontCamera != nil){
                         renderImage=frontCamera
@@ -238,15 +227,15 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
             //Wenn Sender dann Sende Bild auf Kamerabuffer an Empfänger
             if (self.isViewer==false) && (self.backCameraBuffer.isEmpty == false){
                 
-                dispatch_async(GlobalMainQueue, { () -> Void in
-                    if self.buffer == 12 {
-                        self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
-                    self.buffer = 0
-                    }else{
-                        self.buffer = self.buffer + 1
-                    }
-                    self.backCameraBuffer.removeAtIndex(0)
-                })
+//                dispatch_async(GlobalMainQueue, { () -> Void in
+//                    if self.buffer == 12 {
+//                        self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
+//                    self.buffer = 0
+//                    }else{
+//                        self.buffer = self.buffer + 1
+//                    }
+//                    self.backCameraBuffer.removeAtIndex(0)
+//                })
 
             }
         //UpdateGUI

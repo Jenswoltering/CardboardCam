@@ -57,7 +57,8 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
         if (self.appDelegate.cbCamController.isViewer == true){
             let userInfo = ["data":data, "peerID":peerID]
             let receivedData:NSData = userInfo["data"] as! NSData
-            self.appDelegate.cbCamController.backCamera = UIImage(data: receivedData)
+            var backCameraBuffer =  NSKeyedUnarchiver.unarchiveObjectWithData(receivedData)! as! [NSData]
+            self.appDelegate.cbCamController.backCameraBuffer = backCameraBuffer
         }
         if (self.appDelegate.cbCamController.isViewer == false){
             if data != nil{

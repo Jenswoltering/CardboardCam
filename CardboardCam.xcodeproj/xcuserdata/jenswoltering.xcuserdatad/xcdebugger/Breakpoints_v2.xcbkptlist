@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CardboardCam/CBCamController.swift"
-            timestampString = "458142318.101637"
+            timestampString = "458148471.557368"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "processImage(_:value:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CardboardCam/CBCamController.swift"
-            timestampString = "458142318.101637"
+            timestampString = "458148471.557368"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "prepareParameterForMessage()"
             landmarkType = "5">
             <Locations>
