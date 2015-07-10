@@ -22,6 +22,7 @@
 		73580E4F1B4EF8850077D420 /* FilterCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73580E4E1B4EF8850077D420 /* FilterCollection.swift */; };
 		7368243B1B50225100244FF7 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7368243A1B50225100244FF7 /* CoreImage.framework */; };
 		7368243D1B50231F00244FF7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7368243C1B50231F00244FF7 /* CoreGraphics.framework */; };
+		736824411B507E2D00244FF7 /* Security_Camera_512g.png in Resources */ = {isa = PBXBuildFile; fileRef = 736824401B507E2D00244FF7 /* Security_Camera_512g.png */; };
 		736DA1DD1B2E07B800956500 /* CameraSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DA1DC1B2E07B700956500 /* CameraSessionController.swift */; };
 		73CB6FA31B4561630017FEAF /* Objekt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CB6FA21B4561630017FEAF /* Objekt.swift */; };
 		73CB750B1B47DECA0017FEAF /* animation_00000.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CB733E1B47DEC70017FEAF /* animation_00000.png */; };
@@ -517,6 +518,7 @@
 		73580E4E1B4EF8850077D420 /* FilterCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCollection.swift; sourceTree = "<group>"; };
 		7368243A1B50225100244FF7 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		7368243C1B50231F00244FF7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		736824401B507E2D00244FF7 /* Security_Camera_512g.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Security_Camera_512g.png; sourceTree = "<group>"; };
 		736DA1DC1B2E07B700956500 /* CameraSessionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraSessionController.swift; sourceTree = "<group>"; };
 		73CB6FA21B4561630017FEAF /* Objekt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Objekt.swift; sourceTree = "<group>"; };
 		73CB733E1B47DEC70017FEAF /* animation_00000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animation_00000.png; sourceTree = "<group>"; };
@@ -1047,6 +1049,7 @@
 		734D4B751B0E54FE00D998E7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				736824401B507E2D00244FF7 /* Security_Camera_512g.png */,
 				73CB733E1B47DEC70017FEAF /* animation_00000.png */,
 				73CB733F1B47DEC70017FEAF /* animation_00001.png */,
 				73CB73401B47DEC70017FEAF /* animation_00002.png */,
@@ -1851,6 +1854,7 @@
 				73CB765D1B47DECA0017FEAF /* animation_00338.png in Resources */,
 				73CB769D1B47DECA0017FEAF /* animation_00402.png in Resources */,
 				73CB75881B47DECA0017FEAF /* animation_00125.png in Resources */,
+				736824411B507E2D00244FF7 /* Security_Camera_512g.png in Resources */,
 				73CB76781B47DECA0017FEAF /* animation_00365.png in Resources */,
 				73CB76791B47DECA0017FEAF /* animation_00366.png in Resources */,
 				73CB75D91B47DECA0017FEAF /* animation_00206.png in Resources */,

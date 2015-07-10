@@ -13,17 +13,26 @@ class initViewController: UIViewController {
     @IBOutlet weak var progressLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
     @IBOutlet weak var nextButton: UIButton!
-    
+    var counterTimer :NSTimer!
     var counter:Int = 0 {
         didSet {
             let fractionalProgress = Float(counter) / 100.0
             let animated = counter != 0
-            
             progressBar.setProgress(fractionalProgress, animated: animated)
             progressLabel.text = ("\(counter)%")
         }
     }
     
+    func count(){
+        if self.counter <= 99{
+            self.counter++
+        }else{
+            sleep(1)
+            counterTimer.invalidate()
+            nextButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+        }
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,21 +41,8 @@ class initViewController: UIViewController {
         appDelegate.cbCamController.startBeaconDetector()
         progressBar.setProgress(0, animated: true)
         progressLabel.text = "0%"
+        counterTimer = NSTimer.scheduledTimerWithTimeInterval(0.045, target: self, selector: Selector("count"), userInfo: nil, repeats: true)
         self.counter = 0
-//        for i in 0..<100 {
-//            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), {
-//                sleep(5)
-//                dispatch_async(dispatch_get_main_queue(), {
-//                    self.counter++
-//                    return
-//                })
-//            })
-//            
-//            
-//        }
-       // nextButton.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {

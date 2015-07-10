@@ -94,7 +94,7 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 		var videoDevice: AVCaptureDevice = CameraSessionController.deviceWithMediaType(AVMediaTypeVideo, position: AVCaptureDevicePosition.Back)
 		videoDeviceInput = AVCaptureDeviceInput.deviceInputWithDevice(videoDevice, error: &error) as! AVCaptureDeviceInput;
         if videoDevice.lockForConfiguration(nil){
-            videoDevice.setFocusModeLockedWithLensPosition(1.0, completionHandler: nil)
+            videoDevice.setFocusModeLockedWithLensPosition(0.3, completionHandler: nil)
             videoDevice.unlockForConfiguration()
         }
 		if !(error != nil) {

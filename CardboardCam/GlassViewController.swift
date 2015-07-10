@@ -22,6 +22,7 @@ class GlassViewController: UIViewController{
     var didLoad = false
     var customPreviewLayerLeft = CALayer()
     var customPreviewLayerRight = CALayer()
+    
     var counter :Int = 0
     var timer  = NSTimer()
     let animationDuration : NSTimeInterval = 1.0
@@ -31,6 +32,8 @@ class GlassViewController: UIViewController{
     var GlobalMainQueue: dispatch_queue_t {
         return dispatch_get_main_queue()
     }
+    
+    
     
     var GlobalUserInteractiveQueue: dispatch_queue_t {
         return dispatch_get_global_queue(Int(QOS_CLASS_USER_INTERACTIVE.value), 0)
@@ -47,7 +50,7 @@ class GlassViewController: UIViewController{
     var GlobalBackgroundQueue: dispatch_queue_t {
         return dispatch_get_global_queue(Int(QOS_CLASS_BACKGROUND.value), 0)
     }
-    
+    @IBOutlet weak var backStatusView: UIImageView!
     @IBOutlet weak var leftEye: UIView!
     @IBOutlet weak var leftEyeImage: UIImageView!
     @IBOutlet weak var animationRightEye: UIImageView!
@@ -76,12 +79,17 @@ class GlassViewController: UIViewController{
 //        rightEyeImage.animationDuration=animationDuration
 //        leftEyeImage.startAnimating()
 //        rightEyeImage.startAnimating()
+        self.view.backgroundColor=UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        leftEye.backgroundColor=UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
+        rightEye.backgroundColor=UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
         rightEye.addSubview(animationRightEye)
         rightEye.bringSubviewToFront(animationRightEye)
         if appDelegate.cbCamController.isViewer == true {
             timer = NSTimer.scheduledTimerWithTimeInterval(0.04, target: self, selector: Selector("updateImages"), userInfo: nil, repeats: true)
 //            loadAnimationImages()
 //            startIntroAnimation()
+        }else{
+            backStatusView.hidden=false
         }
         
         
