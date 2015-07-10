@@ -56,11 +56,8 @@ class GlassViewController: UIViewController{
     @IBOutlet weak var rightEye: UIView!
     
     func updateImages(){
-        //if appDelegate.cbCamController.renderImage. .isEmpty != true {
         leftEyeImage.image=appDelegate.cbCamController.renderImage
         rightEyeImage.image=appDelegate.cbCamController.renderImage
-        //}
-
     }
     
     override func viewDidLoad() {

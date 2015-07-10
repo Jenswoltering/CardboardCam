@@ -54,7 +54,7 @@ class Objekt {
         if beacon.major.description == objektMajor{
             if beacon.minor.description == objektMinor{
                 self.objektRSSI = beacon.rssi
-                if (beacon.rssi >= -60 && beacon.rssi != 0){
+                if (beacon.rssi >= -75 && beacon.rssi != 0){
                         return true
                 }
             }

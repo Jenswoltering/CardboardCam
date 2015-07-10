@@ -10,7 +10,6 @@ import Foundation
 import CoreLocation
 import CoreImage
 import CoreGraphics
-
 class BeaconDetector: NSObject, CLLocationManagerDelegate{
 
     let locationManager = CLLocationManager()
@@ -24,6 +23,7 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
     var objektFilter2 :Objekt!
     var objektFilter3 :Objekt!
     var objektFilter4 :Objekt!
+    var objektFilter5 :Objekt!
     var objektWrapper :[Objekt] = []
     var lastProximity: CLProximity?
     var counterInaktiv = 0
@@ -32,19 +32,19 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
     
     override init(){
         super.init()
-    
         let uuidString = "73676723-7400-0000-FFFF-0000FFFF0002"
         let beaconIdentifier = "filterBeacons"
         let beaconUUID:NSUUID = NSUUID(UUIDString: uuidString)!
         let beaconRegion:CLBeaconRegion = CLBeaconRegion(proximityUUID: beaconUUID,
             identifier: beaconIdentifier)
-        objektFilter0 = Objekt(pObjektUUID: "0", pObjektMinor: "0", pObjektMajor: "0", pfilter: appDelegate.cbCamController.filterColroInvert)
+        // Dump Filter als Platzhalter
+        objektFilter0 = Objekt(pObjektUUID: "0", pObjektMinor: "0", pObjektMajor: "0", pfilter: appDelegate.cbCamController.filterColorInvert)
         objektFilter1 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "1",  pfilter : appDelegate.cbCamController.filterMonochrome)
-        objektFilter2 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "1",  pfilter: appDelegate.cbCamController.filterTorusLensDistortion)
+        objektFilter2 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "1",  pfilter: appDelegate.cbCamController.filterColorCross)
         objektFilter3 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterPinchDistortion)
-        objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterColroInvert)
-        
-        objektWrapper=[objektFilter1, objektFilter2, objektFilter3,objektFilter4]
+        objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterColorInvert)
+        objektFilter5 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "3",  pfilter: appDelegate.cbCamController.filterBumbDistortion)
+        objektWrapper=[objektFilter1, objektFilter2, objektFilter3,objektFilter4,objektFilter5]
         aktiverFilter = objektFilter0
         if(locationManager.respondsToSelector("requestAlwaysAuthorization")) {
             locationManager.requestAlwaysAuthorization()
@@ -59,7 +59,7 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
     func naehsterFilterBeacon(beacons: [AnyObject]) ->AnyObject? {
         var beaconUUID :NSUUID
         var naehsterBeacon :AnyObject = beacons[0]
-        var naehsteRSSI :Int = -80
+        var naehsteRSSI :Int = -200
         for beacon in beacons{
             beaconUUID = beacon.proximityUUID
             if beaconUUID.UUIDString == "73676723-7400-0000-FFFF-0000FFFF0002" && beacon.major != 0{
@@ -83,9 +83,6 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
     func locationManager(manager: CLLocationManager!,
         didRangeBeacons beacons: [AnyObject]!,
         inRegion region: CLBeaconRegion!) {
-        NSLog("didRangeBeacons");
-        
-            
         if readyToChangeMode == false{
                 
             counterToUnlockMode=counterToUnlockMode+1
@@ -106,8 +103,6 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
             counterToUnlockFilter=0
             counterInaktiv = counterInaktiv + 1
         }
-        NSLog("Mode:" + readyToChangeMode.description)
-        NSLog("Filter: " + readyToChangeFilter.description)
             
         var message:String = ""
         //Wenn Beacons Vorhanden
@@ -115,9 +110,6 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
             //Den naehsten Beacon ermitteln
             if naehsterFilterBeacon(beacons) != nil{
                 var beacon: AnyObject = naehsterFilterBeacon(beacons)!
-//                NSLog("major:" + beacon.major.description)
-//                NSLog("minor:" + beacon.minor.description)
-//                NSLog("rssi:" + beacon.rssi.description)
                 var beaconUUID :NSUUID = beacon.proximityUUID
                 //Wenn Beaconentfernung nicht unknown (doppelte Abfrage da in naehsterBeacon schon vorhanden)
                 if beacon.proximity != CLProximity.Unknown {
@@ -134,7 +126,6 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
                                         if counterInaktiv >= 1 {
                                             counterInaktiv = counterInaktiv - 1
                                         }
-                                    
                                     }
                                 //Wenn bereit zum Aendern dann filter setzen
                                 if readyToChangeFilter{
@@ -157,22 +148,17 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
                         appDelegate.cbCamController.useBackCamera = !appDelegate.cbCamController.useBackCamera
                         readyToChangeMode=false
                     }
-                            
                 }
-
-                        
             }
         }
         //Filter deaktivieren wenn: readyToChange und Counter > 5
         if readyToChangeFilter{
-            if counterInaktiv >= 5{
+            if counterInaktiv >= 8{
                 appDelegate.cbCamController.useFilter = false
                 aktiverFilter = objektFilter0
                 counterInaktiv = 0
             }
         }
-        NSLog("unlock counter" + counterToUnlockFilter.description)
-        NSLog("inaktiv counter" + counterInaktiv.description)
     }
     
     

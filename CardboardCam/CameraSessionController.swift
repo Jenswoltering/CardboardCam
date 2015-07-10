@@ -23,10 +23,8 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 	var videoDeviceOutput: AVCaptureVideoDataOutput!
 	var stillImageOutput: AVCaptureStillImageOutput!
 	var runtimeErrorHandlingObserver: AnyObject?
-	
 	var sessionDelegate: CameraSessionControllerDelegate?
-	
-	
+		
 	/* Class Methods
 	------------------------------------------*/
 	
@@ -201,8 +199,7 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 			)
 		})
 	}
-	
-	
+		
 	/* AVCaptureVideoDataOutput Delegate
 	------------------------------------------*/
 	

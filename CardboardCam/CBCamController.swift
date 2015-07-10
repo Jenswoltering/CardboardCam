@@ -37,15 +37,17 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var pulsingValue :Double = 0
     var messageData :NSData!
     var messageTimer  = NSTimer()
+    var GUITimer = NSTimer()
     var frameTimer = NSTimer()
     var buffer :Int = 0
     let context = CIContext(options:[kCIContextUseSoftwareRenderer : false])
     //======================================================================
     //Filter deklarieren
     var filterMonochrome :CIFilter!
-    var filterTorusLensDistortion :CIFilter!
-    var filterColroInvert :CIFilter!
+    //var filterTorusLensDistortion :CIFilter!
+    var filterColorInvert :CIFilter!
     var filterPinchDistortion :CIFilter!
+    var filterBumbDistortion : CIFilter!
     var filterColorCross :CIFilter!
     var filterWrapper:[CIFilter]!
     //=====================================================================
@@ -80,21 +82,23 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         filterCollection = FilterCollection()
         self.filterMonochrome = filterCollection.colorMonochrome(UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0), intensity: 1.0)
         self.filterPinchDistortion = filterCollection.pinchDistortion(CGPoint(x: 320, y: 240), radius: 160, scale: 0.5)
-        self.filterColroInvert = filterCollection.colorInvent()
-        self.filterTorusLensDistortion = filterCollection.torusLensDistortion(CGPoint(x: 320, y: 240), radius: 100, width: 20, refraction: 0.5)
-        var redArray : [CGFloat] = [1,0,0,0,0,0,0,0,0]
+        self.filterBumbDistortion = filterCollection.bumpDistortion(CGPoint(x: 320, y: 240), radius: 200, scale: 3)
+        self.filterColorInvert = filterCollection.colorInvent()
+        //self.filterTorusLensDistortion = filterCollection.torusLensDistortion(CGPoint(x: 320, y: 240), radius: 100, width: 20, refraction: 0.5)
+        var redArray : [CGFloat] = [0.4,0,0,0,0,0,0,0,0]
         var greenArray :[CGFloat] = [0,1,0,0,0,0,0,0,0]
-        var blueArray :[CGFloat] = [0,0,1,0,0,0,0,0,0]
+        var blueArray :[CGFloat] = [0,0,0.7,0,0,0,0,0,0]
         var redVector = CIVector(values: redArray, count: Int(redArray.count))
         var greenVector = CIVector(values: greenArray, count: Int(greenArray.count))
         var blueVector = CIVector(values: blueArray, count: Int(blueArray.count))
         self.filterColorCross = filterCollection.colorCrossPolynomial(redVector, greenCoefficients: greenVector, blueCoefficients: blueVector)
-        filterWrapper = [filterPinchDistortion,filterMonochrome,filterColroInvert,filterColorCross, filterTorusLensDistortion]
+        filterWrapper = [filterPinchDistortion,filterMonochrome,filterColorInvert,filterColorCross,filterBumbDistortion]
     }
     
     func setupTimer(){
         if self.isViewer == true {
             messageTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("sendStatusMessage"), userInfo: nil, repeats: true)
+            GUITimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: Selector("run"), userInfo: nil, repeats: true)
         }
     }
     
@@ -126,7 +130,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     }
     
     func setBackCameraBufferImage(image :NSData){
-        if (backCameraBuffer.count >= 5) {
+        if (backCameraBuffer.count >= 6) {
             var buffer = NSKeyedArchiver.archivedDataWithRootObject(backCameraBuffer)
             self.appDelegate.mpcHandler.session.sendData(buffer, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
             backCameraBuffer.removeAll(keepCapacity: false)
@@ -134,7 +138,6 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         }else{
             backCameraBuffer.append(image)
         }
-        
     }
     
     func setIsViewer(mode :Bool){
@@ -148,7 +151,6 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     }
     
     func cameraSessionDidOutputSampleBuffer(sampleBuffer: CMSampleBuffer!) {
-        self.run()
         let outputImage :CIImage!
         var imageBuffer :CVImageBufferRef =  CMSampleBufferGetImageBuffer(sampleBuffer);
         CVPixelBufferLockBaseAddress(imageBuffer,0)
@@ -164,13 +166,12 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         if (isViewer==true){
                 self.setFrontCameraImage(UIImage(CGImage: cgImg)!)
         }else{
-            dispatch_sync(GlobalMainQueue, { () -> Void in
+            dispatch_barrier_sync(GlobalMainQueue, { () -> Void in
                 var uiImage = UIImage(CGImage: cgImg)
                 var compressedImage = UIImageJPEGRepresentation(uiImage, 0.4)
                 self.setBackCameraBufferImage(compressedImage!)
             })
         }
-        self.run()
     }
     
     
@@ -198,7 +199,9 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
                 if (useBackCamera == true){
                     if (backCameraBuffer.isEmpty == false){
                         renderImage=UIImage(data:backCameraBuffer.first!)
-                        backCameraBuffer.removeAtIndex(0)
+                        if (backCameraBuffer.isEmpty == false){
+                            backCameraBuffer.removeAtIndex(0)
+                        }
                     }
                 }else{
                     if (frontCamera != nil){
@@ -209,18 +212,8 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
             //Wenn Sender dann Sende Bild auf Kamerabuffer an Empfänger
             if (self.isViewer==false) && (self.backCameraBuffer.isEmpty == false){
                 
-//                dispatch_async(GlobalMainQueue, { () -> Void in
-//                    if self.buffer == 12 {
-//                        self.appDelegate.mpcHandler.session.sendData(self.backCameraBuffer.first, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
-//                    self.buffer = 0
-//                    }else{
-//                        self.buffer = self.buffer + 1
-//                    }
-//                    self.backCameraBuffer.removeAtIndex(0)
-//                })
-
             }
-        //UpdateGUI
+            //UpdateGUI
       
     }
     

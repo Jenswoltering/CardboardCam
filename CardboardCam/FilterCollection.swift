@@ -24,6 +24,18 @@ class FilterCollection {
             return filter
     }
     
+    
+    func bumpDistortion(center: CGPoint, radius: Float, scale: Float) -> CIFilter {
+            let parameters : CIParameters = [
+                kCIInputRadiusKey:radius,
+                kCIInputCenterKey:CIVector(CGPoint:center),
+                kCIInputScaleKey:scale
+            ]
+            let filter = CIFilter(name:"CIBumpDistortion", withInputParameters:parameters)
+            return filter
+        
+    }
+    
     func pinchDistortion(center: CGPoint, radius: Float, scale:Float) -> CIFilter {
             let parameters : CIParameters = [
                 kCIInputRadiusKey:radius,

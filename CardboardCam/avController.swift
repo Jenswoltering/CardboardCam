@@ -41,13 +41,9 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
                                 if frameRates.maxFrameRate == 120 {
                                     
                                     // 4
-                                    
                                     videoDevice.activeFormat = vFormat as! AVCaptureDeviceFormat
-                                    
                                     videoDevice.activeVideoMinFrameDuration = frameRates.minFrameDuration
                                     videoDevice.activeVideoMaxFrameDuration = frameRates.maxFrameDuration
-            
-                                    
                                 }
                             }
                             videoDevice.setFocusModeLockedWithLensPosition(1.0, completionHandler: nil)
@@ -88,7 +84,6 @@ class AVController: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate,NSObj
         var imageBuffer =  CMSampleBufferGetImageBuffer(sampleBuffer);
         CVPixelBufferLockBaseAddress(imageBuffer,0)
         var processedImage = processImage(imageBuffer, param1: 0, param2: 0)
-        //appDelegate!.cbCamController.setprocessedCameraImage(processedImage)
         dispatch_async(dispatch_get_main_queue()){
             NSLog("test")
                 //var image = CIImage(CVPixelBuffer: imageBuffer)
