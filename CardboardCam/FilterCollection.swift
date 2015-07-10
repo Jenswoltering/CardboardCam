@@ -13,17 +13,6 @@ typealias CIParameters = Dictionary<String, AnyObject>
 
 
 class FilterCollection {
-    func torusLensDistortion(center: CGPoint, radius: Float, width: Float, refraction: Float) -> CIFilter {
-            let parameters : CIParameters = ["":""
-//                kCIInputCenterKey:CIVector(CGPoint:center),
-//                kCIInputRadiusKey:radius,
-//                kCIInputWidthKey:width,
-//                "inputRefraction": refraction
-        ]
-            let filter = CIFilter(name:"CITorusLensDistortion")
-            return filter
-    }
-    
     
     func bumpDistortion(center: CGPoint, radius: Float, scale: Float) -> CIFilter {
             let parameters : CIParameters = [
@@ -49,26 +38,7 @@ class FilterCollection {
         let filter = CIFilter(name: "CIColorInvert")
         return filter
     }
-    
-    func lineOverlay(nrNoiseLevel: Float, nrSharpness: Float, edgeIntensity: Float, threshold: Float, contrast: Float) -> CIFilter {
-            let parameters : CIParameters = [
-                "inputNRNoiseLevel":nrNoiseLevel,
-                "inputNRSharpness": nrSharpness,
-                "inputEdgeIntensity":edgeIntensity,
-                "inputThreshold":threshold,
-                "inputContrast":contrast
-            ]
-            let filter = CIFilter(name:"CILineOverlay", withInputParameters: parameters)
-            return filter
         
-    }
-    
-    
-    func comicEffect() ->CIFilter{
-        let filter = CIFilter(name: "CIComicEffect")
-        return filter
-    }
-    
     func colorCrossPolynomial(redCoefficients: CIVector, greenCoefficients: CIVector, blueCoefficients: CIVector) -> CIFilter {
             let parameters : CIParameters = [
                 "inputRedCoefficients": redCoefficients,
@@ -84,6 +54,15 @@ class FilterCollection {
                 kCIInputIntensityKey:intensity]
             let filter = CIFilter(name:"CIColorMonochrome", withInputParameters:parameters)
             return filter
+    }
+    
+    func flipFilter()->CIFilter{
+        var mirror :CGAffineTransform = CGAffineTransformMakeScale(-1, 1)
+        let parameters : CIParameters = [
+            kCIInputTransformKey: NSValue(CGAffineTransform: mirror)
+        ]
+        let filter = CIFilter(name: "CIAffineTransform", withInputParameters:parameters)
+        return filter
     }
     
 }

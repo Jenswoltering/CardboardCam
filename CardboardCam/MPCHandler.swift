@@ -58,7 +58,10 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
             let userInfo = ["data":data, "peerID":peerID]
             let receivedData:NSData = userInfo["data"] as! NSData
             var backCameraBuffer =  NSKeyedUnarchiver.unarchiveObjectWithData(receivedData)! as! [NSData]
-            self.appDelegate.cbCamController.backCameraBuffer = backCameraBuffer
+            dispatch_barrier_sync(appDelegate.criticQueue, { () -> Void in
+                self.appDelegate.cbCamController.backCameraBuffer = backCameraBuffer
+            })
+            
         }
         if (self.appDelegate.cbCamController.isViewer == false){
             if data != nil{

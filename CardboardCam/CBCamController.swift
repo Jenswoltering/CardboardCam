@@ -18,14 +18,12 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var appDelegate:AppDelegate! = UIApplication.sharedApplication().delegate as? AppDelegate
     var cameraController : CameraSessionController!
     var frontCamera :UIImage!
-    var motionKit :MotionKit!
     var beaconDetector :BeaconDetector!
     var backCamera :UIImage!
     var backCameraBuffer :[NSData] = []
     var backCameraBufferTransmit :[String:AnyObject] = ["":""]
     var filterCollection :FilterCollection!
     var renderImage :UIImage!
-    var drehung :Double = 0
     var filterToUse :CIFilter!
     var useFilter :Bool!
     var isViewer :Bool!
@@ -83,7 +81,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         self.filterMonochrome = filterCollection.colorMonochrome(UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0), intensity: 1.0)
         self.filterPinchDistortion = filterCollection.pinchDistortion(CGPoint(x: 320, y: 240), radius: 160, scale: 0.5)
         self.filterBumbDistortion = filterCollection.bumpDistortion(CGPoint(x: 320, y: 240), radius: 200, scale: 3)
-        self.filterColorInvert = filterCollection.colorInvent()
+        self.filterColorInvert = filterCollection.flipFilter()
         //self.filterTorusLensDistortion = filterCollection.torusLensDistortion(CGPoint(x: 320, y: 240), radius: 100, width: 20, refraction: 0.5)
         var redArray : [CGFloat] = [0.7,1,0.4,0.3,1,0,0.1,0,0]
         var greenArray :[CGFloat] = [0,1,0.2,0,0,1,0,0.4,0]
@@ -98,7 +96,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     func setupTimer(){
         if self.isViewer == true {
             messageTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("sendStatusMessage"), userInfo: nil, repeats: true)
-            GUITimer = NSTimer.scheduledTimerWithTimeInterval(0.05, target: self, selector: Selector("run"), userInfo: nil, repeats: true)
+            GUITimer = NSTimer.scheduledTimerWithTimeInterval(0.035, target: self, selector: Selector("run"), userInfo: nil, repeats: true)
         }
     }
     
@@ -130,7 +128,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     }
     
     func setBackCameraBufferImage(image :NSData){
-        if (backCameraBuffer.count >= 6) {
+        if (backCameraBuffer.count >= 5) {
             var buffer = NSKeyedArchiver.archivedDataWithRootObject(backCameraBuffer)
             self.appDelegate.mpcHandler.session.sendData(buffer, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
             backCameraBuffer.removeAll(keepCapacity: false)
@@ -166,7 +164,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         if (isViewer==true){
                 self.setFrontCameraImage(UIImage(CGImage: cgImg)!)
         }else{
-            dispatch_barrier_sync(GlobalMainQueue, { () -> Void in
+            dispatch_barrier_sync(appDelegate.criticQueue, { () -> Void in
                 var uiImage = UIImage(CGImage: cgImg)
                 var compressedImage = UIImageJPEGRepresentation(uiImage, 0.4)
                 self.setBackCameraBufferImage(compressedImage!)
@@ -198,10 +196,12 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
             if (isViewer == true){
                 if (useBackCamera == true){
                     if (backCameraBuffer.isEmpty == false){
-                        renderImage=UIImage(data:backCameraBuffer.first!)
-                        if (backCameraBuffer.isEmpty == false){
-                            backCameraBuffer.removeAtIndex(0)
-                        }
+                        dispatch_barrier_sync(appDelegate.criticQueue, { () -> Void in
+                            self.renderImage=UIImage(data:self.backCameraBuffer.first!)
+                            if (self.backCameraBuffer.isEmpty == false){
+                                self.backCameraBuffer.removeAtIndex(0)
+                            }
+                        })
                     }
                 }else{
                     if (frontCamera != nil){

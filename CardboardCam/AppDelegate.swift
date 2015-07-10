@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var storyboard: UIStoryboard?
     var renderGUI: GlassViewController!
     var renderImage :UIImage?
-    
+    let criticQueue: dispatch_queue_t = dispatch_queue_create("critic.queue", DISPATCH_QUEUE_CONCURRENT)
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         //avController.setupCamera()

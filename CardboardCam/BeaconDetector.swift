@@ -46,9 +46,11 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
         objektFilter5 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "3",  pfilter: appDelegate.cbCamController.filterBumbDistortion)
         objektWrapper=[objektFilter1, objektFilter2, objektFilter3,objektFilter4,objektFilter5]
         aktiverFilter = objektFilter0
+        
         if(locationManager.respondsToSelector("requestAlwaysAuthorization")) {
             locationManager.requestAlwaysAuthorization()
         }
+        
         locationManager.delegate = self
         locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.startMonitoringForRegion(beaconRegion)
@@ -84,7 +86,6 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
         didRangeBeacons beacons: [AnyObject]!,
         inRegion region: CLBeaconRegion!) {
         if readyToChangeMode == false{
-                
             counterToUnlockMode=counterToUnlockMode+1
             if counterToUnlockMode >= 5{
                 readyToChangeMode=true

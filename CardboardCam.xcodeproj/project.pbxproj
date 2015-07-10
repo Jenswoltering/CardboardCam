@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		7318F7801B0F6EB400E68A0A /* GlassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F77F1B0F6EB400E68A0A /* GlassViewController.swift */; };
-		7318F7821B0F742F00E68A0A /* MotionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F7811B0F742F00E68A0A /* MotionController.swift */; };
-		7318F7841B0F89E500E68A0A /* MotionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7318F7831B0F89E500E68A0A /* MotionKit.swift */; };
 		733255F61B38382200A014F0 /* BeaconDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733255F51B38382100A014F0 /* BeaconDetector.swift */; };
 		733255F71B39304900A014F0 /* CBCamController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731D30D71B13731900F11DEB /* CBCamController.swift */; };
 		734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B771B0E54FE00D998E7 /* AppDelegate.swift */; };
@@ -21,7 +19,6 @@
 		734D4B911B0E54FF00D998E7 /* CardboardCamTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B901B0E54FF00D998E7 /* CardboardCamTests.swift */; };
 		734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */; };
 		734D4B9F1B0F247A00D998E7 /* initViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B9E1B0F247A00D998E7 /* initViewController.swift */; };
-		734D4BA11B0F44AA00D998E7 /* AVController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4BA01B0F44AA00D998E7 /* AVController.swift */; };
 		73580E4F1B4EF8850077D420 /* FilterCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73580E4E1B4EF8850077D420 /* FilterCollection.swift */; };
 		7368243B1B50225100244FF7 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7368243A1B50225100244FF7 /* CoreImage.framework */; };
 		7368243D1B50231F00244FF7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7368243C1B50231F00244FF7 /* CoreGraphics.framework */; };
@@ -502,8 +499,6 @@
 
 /* Begin PBXFileReference section */
 		7318F77F1B0F6EB400E68A0A /* GlassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlassViewController.swift; sourceTree = "<group>"; };
-		7318F7811B0F742F00E68A0A /* MotionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionController.swift; sourceTree = "<group>"; };
-		7318F7831B0F89E500E68A0A /* MotionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionKit.swift; sourceTree = "<group>"; };
 		731D30D71B13731900F11DEB /* CBCamController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CBCamController.swift; sourceTree = "<group>"; };
 		733255F51B38382100A014F0 /* BeaconDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BeaconDetector.swift; sourceTree = "<group>"; };
 		734D4B721B0E54FE00D998E7 /* CardboardCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardboardCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -519,7 +514,6 @@
 		734D4B901B0E54FF00D998E7 /* CardboardCamTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardboardCamTests.swift; sourceTree = "<group>"; };
 		734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MPCHandler.swift; sourceTree = "<group>"; };
 		734D4B9E1B0F247A00D998E7 /* initViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = initViewController.swift; sourceTree = "<group>"; };
-		734D4BA01B0F44AA00D998E7 /* AVController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVController.swift; sourceTree = "<group>"; };
 		73580E4E1B4EF8850077D420 /* FilterCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCollection.swift; sourceTree = "<group>"; };
 		7368243A1B50225100244FF7 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		7368243C1B50231F00244FF7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1037,14 +1031,11 @@
 				734D4B9A1B0E5DB400D998E7 /* MPCHandler.swift */,
 				7318F77F1B0F6EB400E68A0A /* GlassViewController.swift */,
 				734D4B771B0E54FE00D998E7 /* AppDelegate.swift */,
-				734D4BA01B0F44AA00D998E7 /* AVController.swift */,
 				731D30D71B13731900F11DEB /* CBCamController.swift */,
 				734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */,
 				734D4B9E1B0F247A00D998E7 /* initViewController.swift */,
 				734D4B7E1B0E54FF00D998E7 /* Main.storyboard */,
-				7318F7811B0F742F00E68A0A /* MotionController.swift */,
 				73CB6FA21B4561630017FEAF /* Objekt.swift */,
-				7318F7831B0F89E500E68A0A /* MotionKit.swift */,
 				734D4B811B0E54FF00D998E7 /* Images.xcassets */,
 				734D4B831B0E54FF00D998E7 /* LaunchScreen.xib */,
 				734D4B791B0E54FF00D998E7 /* CardboardCam.xcdatamodeld */,
@@ -2101,12 +2092,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				734D4BA11B0F44AA00D998E7 /* AVController.swift in Sources */,
 				733255F61B38382200A014F0 /* BeaconDetector.swift in Sources */,
 				733255F71B39304900A014F0 /* CBCamController.swift in Sources */,
 				734D4B9F1B0F247A00D998E7 /* initViewController.swift in Sources */,
 				7318F7801B0F6EB400E68A0A /* GlassViewController.swift in Sources */,
-				7318F7821B0F742F00E68A0A /* MotionController.swift in Sources */,
 				734D4B7D1B0E54FF00D998E7 /* ConnectionViewController.swift in Sources */,
 				734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */,
 				734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */,
@@ -2114,7 +2103,6 @@
 				73CB6FA31B4561630017FEAF /* Objekt.swift in Sources */,
 				734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */,
 				736DA1DD1B2E07B800956500 /* CameraSessionController.swift in Sources */,
-				7318F7841B0F89E500E68A0A /* MotionKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
