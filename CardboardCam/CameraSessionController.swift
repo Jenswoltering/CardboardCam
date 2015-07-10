@@ -39,7 +39,7 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 				break
 			}
 		}
-		
+
 		return captureDevice
 	}
 	
@@ -182,7 +182,6 @@ class CameraSessionController: NSObject, AVCaptureVideoDataOutputSampleBufferDel
 		if ((completion != nil) || (stillImageOutput != nil)) {
 			return
 		}
-		
 		dispatch_async(sessionQueue, {
 			self.stillImageOutput.captureStillImageAsynchronouslyFromConnection(
 				self.stillImageOutput.connectionWithMediaType(AVMediaTypeVideo),completionHandler: {

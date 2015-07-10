@@ -85,9 +85,9 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         self.filterBumbDistortion = filterCollection.bumpDistortion(CGPoint(x: 320, y: 240), radius: 200, scale: 3)
         self.filterColorInvert = filterCollection.colorInvent()
         //self.filterTorusLensDistortion = filterCollection.torusLensDistortion(CGPoint(x: 320, y: 240), radius: 100, width: 20, refraction: 0.5)
-        var redArray : [CGFloat] = [0.4,0,0,0,0,0,0,0,0]
-        var greenArray :[CGFloat] = [0,1,0,0,0,0,0,0,0]
-        var blueArray :[CGFloat] = [0,0,0.7,0,0,0,0,0,0]
+        var redArray : [CGFloat] = [0.7,1,0.4,0.3,1,0,0.1,0,0]
+        var greenArray :[CGFloat] = [0,1,0.2,0,0,1,0,0.4,0]
+        var blueArray :[CGFloat] = [1,0,0.9,0.8,0.9,0,0,1,0]
         var redVector = CIVector(values: redArray, count: Int(redArray.count))
         var greenVector = CIVector(values: greenArray, count: Int(greenArray.count))
         var blueVector = CIVector(values: blueArray, count: Int(blueArray.count))

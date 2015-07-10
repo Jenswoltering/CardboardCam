@@ -50,6 +50,25 @@ class FilterCollection {
         return filter
     }
     
+    func lineOverlay(nrNoiseLevel: Float, nrSharpness: Float, edgeIntensity: Float, threshold: Float, contrast: Float) -> CIFilter {
+            let parameters : CIParameters = [
+                "inputNRNoiseLevel":nrNoiseLevel,
+                "inputNRSharpness": nrSharpness,
+                "inputEdgeIntensity":edgeIntensity,
+                "inputThreshold":threshold,
+                "inputContrast":contrast
+            ]
+            let filter = CIFilter(name:"CILineOverlay", withInputParameters: parameters)
+            return filter
+        
+    }
+    
+    
+    func comicEffect() ->CIFilter{
+        let filter = CIFilter(name: "CIComicEffect")
+        return filter
+    }
+    
     func colorCrossPolynomial(redCoefficients: CIVector, greenCoefficients: CIVector, blueCoefficients: CIVector) -> CIFilter {
             let parameters : CIParameters = [
                 "inputRedCoefficients": redCoefficients,

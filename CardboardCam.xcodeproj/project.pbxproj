@@ -23,6 +23,8 @@
 		734D4B9F1B0F247A00D998E7 /* initViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4B9E1B0F247A00D998E7 /* initViewController.swift */; };
 		734D4BA11B0F44AA00D998E7 /* AVController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 734D4BA01B0F44AA00D998E7 /* AVController.swift */; };
 		73580E4F1B4EF8850077D420 /* FilterCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73580E4E1B4EF8850077D420 /* FilterCollection.swift */; };
+		7368243B1B50225100244FF7 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7368243A1B50225100244FF7 /* CoreImage.framework */; };
+		7368243D1B50231F00244FF7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7368243C1B50231F00244FF7 /* CoreGraphics.framework */; };
 		736DA1DD1B2E07B800956500 /* CameraSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 736DA1DC1B2E07B700956500 /* CameraSessionController.swift */; };
 		73CB6FA31B4561630017FEAF /* Objekt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73CB6FA21B4561630017FEAF /* Objekt.swift */; };
 		73CB750B1B47DECA0017FEAF /* animation_00000.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CB733E1B47DEC70017FEAF /* animation_00000.png */; };
@@ -519,6 +521,8 @@
 		734D4B9E1B0F247A00D998E7 /* initViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = initViewController.swift; sourceTree = "<group>"; };
 		734D4BA01B0F44AA00D998E7 /* AVController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AVController.swift; sourceTree = "<group>"; };
 		73580E4E1B4EF8850077D420 /* FilterCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterCollection.swift; sourceTree = "<group>"; };
+		7368243A1B50225100244FF7 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		7368243C1B50231F00244FF7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		736DA1DC1B2E07B700956500 /* CameraSessionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraSessionController.swift; sourceTree = "<group>"; };
 		73CB6FA21B4561630017FEAF /* Objekt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Objekt.swift; sourceTree = "<group>"; };
 		73CB733E1B47DEC70017FEAF /* animation_00000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animation_00000.png; sourceTree = "<group>"; };
@@ -989,6 +993,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7368243D1B50231F00244FF7 /* CoreGraphics.framework in Frameworks */,
+				7368243B1B50225100244FF7 /* CoreImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1005,6 +1011,8 @@
 		734D4B691B0E54FE00D998E7 = {
 			isa = PBXGroup;
 			children = (
+				7368243C1B50231F00244FF7 /* CoreGraphics.framework */,
+				7368243A1B50225100244FF7 /* CoreImage.framework */,
 				734D4B741B0E54FE00D998E7 /* CardboardCam */,
 				734D4B8D1B0E54FF00D998E7 /* CardboardCamTests */,
 				734D4B731B0E54FE00D998E7 /* Products */,
