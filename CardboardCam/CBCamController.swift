@@ -27,17 +27,22 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var filterToUse :CIFilter!
     var useFilter :Bool!
     var isViewer :Bool!
+    var xMotion :Double!
+    var yMotion :Double!
+    var zMotion :Double!
     var isRunning :Bool!
+    var motionKit :MotionKit!
     var useBackCamera :Bool = true
     var image :CIImage?
+    var showIntro :Bool!
     var counter :Int = 0
-    var pulsingDirection :Bool = true
-    var pulsingValue :Double = 0
     var messageData :NSData!
     var messageTimer  = NSTimer()
     var GUITimer = NSTimer()
     var frameTimer = NSTimer()
     var buffer :Int = 0
+    var imagesForAnimation :[UIImage] = []
+    var imagesForAnimationBuffer :[UIImage] = []
     let context = CIContext(options:[kCIContextUseSoftwareRenderer : false])
     //======================================================================
     //Filter deklarieren
@@ -47,7 +52,21 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     var filterPinchDistortion :CIFilter!
     var filterBumbDistortion : CIFilter!
     var filterColorCross :CIFilter!
+    var filterFlipHori :CIFilter!
+    var filterFlipVerti :CIFilter!
+    
     var filterWrapper:[CIFilter]!
+    
+    
+    
+    var redArray : [CGFloat]!
+    var greenArray : [CGFloat]!
+    var blueArray : [CGFloat]!
+    var greenVector :CIVector!
+    var blueVector :CIVector!
+    var redVector :CIVector!
+    
+    
     //=====================================================================
     var GlobalMainQueue: dispatch_queue_t {
         return dispatch_get_main_queue()
@@ -74,47 +93,71 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         isViewer = true
         useBackCamera=true
         useFilter = false
+        showIntro = true
         isRunning = true
+        self.xMotion = 1
+        self.yMotion = 0
+        self.zMotion = 0
         cameraController = CameraSessionController()
         cameraController.sessionDelegate = self
         filterCollection = FilterCollection()
-        self.filterMonochrome = filterCollection.colorMonochrome(UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0), intensity: 1.0)
+        self.filterMonochrome = filterCollection.colorMonochrome(UIColor(red: 1.0, green: 0.0, blue: 1.0, alpha: 1.0), intensity: 1.0)
         self.filterPinchDistortion = filterCollection.pinchDistortion(CGPoint(x: 320, y: 240), radius: 160, scale: 0.5)
         self.filterBumbDistortion = filterCollection.bumpDistortion(CGPoint(x: 320, y: 240), radius: 200, scale: 3)
-        self.filterColorInvert = filterCollection.flipFilter()
+        self.filterColorInvert = filterCollection.colorInvent()
+        self.filterFlipHori = filterCollection.flipHorizontalFilter()
+        self.filterFlipVerti = filterCollection.flipVertikalFilter()
         //self.filterTorusLensDistortion = filterCollection.torusLensDistortion(CGPoint(x: 320, y: 240), radius: 100, width: 20, refraction: 0.5)
-        var redArray : [CGFloat] = [0.7,1,0.4,0.3,1,0,0.1,0,0]
-        var greenArray :[CGFloat] = [0,1,0.2,0,0,1,0,0.4,0]
-        var blueArray :[CGFloat] = [1,0,0.9,0.8,0.9,0,0,1,0]
-        var redVector = CIVector(values: redArray, count: Int(redArray.count))
-        var greenVector = CIVector(values: greenArray, count: Int(greenArray.count))
-        var blueVector = CIVector(values: blueArray, count: Int(blueArray.count))
-        self.filterColorCross = filterCollection.colorCrossPolynomial(redVector, greenCoefficients: greenVector, blueCoefficients: blueVector)
-        filterWrapper = [filterPinchDistortion,filterMonochrome,filterColorInvert,filterColorCross,filterBumbDistortion]
+        redArray = [CGFloat(self.zMotion),CGFloat(self.xMotion),CGFloat(self.yMotion),0,0,0,0,0,0]
+        greenArray  = [CGFloat(self.xMotion),CGFloat(self.yMotion),CGFloat(self.zMotion),0,0,0,0,0,0]
+        blueArray = [CGFloat(self.yMotion),CGFloat(self.xMotion),CGFloat(self.zMotion),0,0,0,0,0,0]
+        redVector = CIVector(values: redArray, count: Int(redArray.count))
+        greenVector = CIVector(values: greenArray, count: Int(greenArray.count))
+        blueVector = CIVector(values: blueArray, count: Int(blueArray.count))
+        self.filterColorCross = filterCollection.colorCrossPolynomial(self.redVector, greenCoefficients: self.greenVector, blueCoefficients: self.blueVector)
+        filterWrapper = [filterPinchDistortion,filterMonochrome,filterColorInvert,filterColorCross,filterBumbDistortion, filterFlipHori]
+        loadIntro()
+    }
+    
+    func startMotionDetection(){
+        if self.isViewer == true{
+            self.motionKit = MotionKit()
+            motionKit.getAttitudeFromDeviceMotion(interval: 0.4) {
+                (attitude) -> () in
+                self.xMotion = self.normalize(attitude.roll)
+                self.yMotion = self.normalize(attitude.pitch)
+                self.zMotion = self.normalize(attitude.yaw)
+            }
+
+        }
+    }
+    
+    
+    func loadIntro(){
+        let frameCount = 460
+        var imageNames:[String] = []
+        let fixedName = "animation_"
+        var frameNumber:Int
+        for frameNumber = 0; frameNumber <= frameCount; ++frameNumber{
+            imageNames.append( fixedName +  String(format: "%05d", frameNumber))
+            var file :String = NSBundle.mainBundle().pathForResource(imageNames.last!, ofType: "png")!
+            self.imagesForAnimation.append(UIImage(contentsOfFile: file)!)
+        }
+        NSLog("images loaded")
     }
     
     func setupTimer(){
         if self.isViewer == true {
-            messageTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: Selector("sendStatusMessage"), userInfo: nil, repeats: true)
+            messageTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("sendStatusMessage"), userInfo: nil, repeats: true)
             GUITimer = NSTimer.scheduledTimerWithTimeInterval(0.035, target: self, selector: Selector("run"), userInfo: nil, repeats: true)
         }
     }
     
-    //Kann weg
-    func filterPulsing()->Double{
-        if pulsingDirection == true {
-            pulsingValue=pulsingValue+0.1
-            if pulsingValue >= 10{
-                pulsingDirection=false
-            }
-        }else{
-            pulsingValue=pulsingValue-0.1
-            if pulsingValue <= 0{
-                pulsingDirection=true
-            }
-
-        }
-        return pulsingValue
+    
+    func normalize(value :Double)->Double{
+        var min :Double = -3
+        var max :Double = 3
+        return (value-min)/(max-min)
     }
     
     func startBeaconDetector(){
@@ -128,7 +171,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     }
     
     func setBackCameraBufferImage(image :NSData){
-        if (backCameraBuffer.count >= 5) {
+        if (backCameraBuffer.count >= 3) {
             var buffer = NSKeyedArchiver.archivedDataWithRootObject(backCameraBuffer)
             self.appDelegate.mpcHandler.session.sendData(buffer, toPeers: self.appDelegate.mpcHandler.session.connectedPeers!, withMode: self.appDelegate.mpcHandler.mode, error: nil)
             backCameraBuffer.removeAll(keepCapacity: false)
@@ -172,6 +215,19 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         }
     }
     
+    func updateVectors(){
+        self.redArray = [CGFloat(self.zMotion),CGFloat(self.xMotion),CGFloat(self.yMotion),0,0,0,0,0,0]
+        self.greenArray  = [CGFloat(self.xMotion),CGFloat(self.yMotion),CGFloat(self.zMotion),0,0,0,0,0,0]
+        self.blueArray  = [CGFloat(self.yMotion),CGFloat(self.xMotion),CGFloat(self.zMotion),0,0,0,0,0,0]
+        self.redVector = CIVector(values: redArray, count: Int(redArray.count))
+        self.greenVector = CIVector(values: greenArray, count: Int(greenArray.count))
+        self.blueVector = CIVector(values: blueArray, count: Int(blueArray.count))
+        filterColorCross.setValue(redVector, forKey: "inputRedCoefficients")
+        filterColorCross.setValue(greenVector, forKey: "inputGreenCoefficients")
+        filterColorCross.setValue(blueVector, forKey: "inputBlueCoefficients")
+        //self.filterColorCross = filterCollection.colorCrossPolynomial(self.redVector, greenCoefficients: self.greenVector, blueCoefficients: self.blueVector)
+        
+    }
     
     func processImage(inputImage :CIImage, value :Double) -> CIImage{
             self.filterToUse.setValue(inputImage, forKey: kCIInputImageKey)
@@ -181,10 +237,10 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     func prepareParameterForMessage() -> NSData{
         var parameters :NSDictionary
         if self.useFilter == true {
-             parameters  = ["useBackCamera": self.useBackCamera.description, "useFilter":self.useFilter.description, "filterName": self.filterToUse.name()]
+            parameters  = ["useBackCamera": self.useBackCamera.description, "useFilter":self.useFilter.description, "filterName": self.filterToUse.name(), "xMotion" :self.xMotion, "yMotion" : self.yMotion, "zMotion" : self.zMotion]
             
         }else{
-            parameters  = ["useBackCamera": self.useBackCamera.description, "useFilter":self.useFilter.description, "filterName": "keinFilter"]
+            parameters  = ["useBackCamera": self.useBackCamera.description, "useFilter":self.useFilter.description, "filterName": "keinFilter", "xMotion" :self.xMotion, "yMotion" : self.yMotion, "zMotion" : self.zMotion]
         }
         var parameterMessage = NSJSONSerialization.dataWithJSONObject(parameters, options: NSJSONWritingOptions.PrettyPrinted, error: nil)
         return parameterMessage!
@@ -194,18 +250,41 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     func run(){
             // Wenn Viewer dann lade Bild in den RenderBuffer
             if (isViewer == true){
-                if (useBackCamera == true){
-                    if (backCameraBuffer.isEmpty == false){
+                if(showIntro == true){
+                    if imagesForAnimationBuffer.isEmpty == false{
                         dispatch_barrier_sync(appDelegate.criticQueue, { () -> Void in
-                            self.renderImage=UIImage(data:self.backCameraBuffer.first!)
+                            self.renderImage=self.imagesForAnimationBuffer.first
+                            NSLog("loaded frame No.:" + self.counter.description)
+                            self.counter = self.counter + 1
+                            if (self.imagesForAnimationBuffer.isEmpty == false){
+                                self.imagesForAnimationBuffer.removeAtIndex(0)
+                            }
                             if (self.backCameraBuffer.isEmpty == false){
-                                self.backCameraBuffer.removeAtIndex(0)
+                                    self.backCameraBuffer.removeAtIndex(0)
                             }
                         })
+
+                    }else{
+                        NSLog("end intro")
+                        showIntro = false
+                        imagesForAnimationBuffer = imagesForAnimation
+                        imagesForAnimation.removeAll(keepCapacity: false)
                     }
                 }else{
-                    if (frontCamera != nil){
-                        renderImage=frontCamera
+                
+                    if (useBackCamera == true){
+                        if (backCameraBuffer.isEmpty == false){
+                            dispatch_barrier_sync(appDelegate.criticQueue, { () -> Void in
+                                self.renderImage=UIImage(data:self.backCameraBuffer.first!)
+                                if (self.backCameraBuffer.isEmpty == false){
+                                    self.backCameraBuffer.removeAtIndex(0)
+                                }
+                            })
+                        }
+                    }else{
+                        if (frontCamera != nil){
+                            renderImage=frontCamera
+                        }
                     }
                 }
             }

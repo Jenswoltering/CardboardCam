@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="F0Q-bP-En5">
+    <dependencies>
+        <deployment version="1808" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+    </dependencies>
+    <scenes>
+        <!--Connection View Controller-->
+        <scene sceneID="ufC-wZ-h7g">
+            <objects>
+                <viewController id="vXZ-lx-hvc" customClass="ConnectionViewController" customModule="CardboardCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="f0O-aT-2S2"/>
+                        <viewControllerLayoutGuide type="bottom" id="SV0-Fv-LsZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <switch hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="33Y-wJ-5bv">
+                                <rect key="frame" x="316" y="210" width="51" height="31"/>
+                                <rect key="contentStretch" x="1.3877787807814457e-17" y="0.0" width="1" height="1"/>
+                                <connections>
+                                    <action selector="empfaengerChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="cb6-5H-MBQ"/>
+                                </connections>
+                            </switch>
+                            <switch hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vof-UX-Ibh">
+                                <rect key="frame" x="316" y="144" width="51" height="31"/>
+                                <rect key="contentStretch" x="1.3877787807814457e-17" y="0.0" width="1" height="1"/>
+                                <connections>
+                                    <action selector="senderChanged:" destination="vXZ-lx-hvc" eventType="valueChanged" id="07t-51-p8i"/>
+                                </connections>
+                            </switch>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Sender" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFZ-O1-X59">
+                                <rect key="frame" x="204" y="149" width="55" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Empfänger" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJd-oj-jXc">
+                                <rect key="frame" x="204" y="215" width="84" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Basic Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgo-v0-6Af">
+                                <rect key="frame" x="221" y="89" width="126" height="28"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ceB-Gz-qrl">
+                        <barButtonItem key="leftBarButtonItem" title="Connect" id="57y-wy-4Qb">
+                            <connections>
+                                <action selector="connectDevices:" destination="vXZ-lx-hvc" id="CfU-5o-xc1"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="start" id="W08-WX-HiD">
+                            <connections>
+                                <segue destination="Ejr-oa-dga" kind="modal" id="etc-uH-RBi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="controllerLabel" destination="qFZ-O1-X59" id="r1s-xO-yej"/>
+                        <outlet property="empfaengerSwitch" destination="33Y-wJ-5bv" id="blw-Wj-yeV"/>
+                        <outlet property="headlineLabel" destination="dgo-v0-6Af" id="JFT-ZK-5TM"/>
+                        <outlet property="participantLabel" destination="cJd-oj-jXc" id="efp-Q2-bj2"/>
+                        <outlet property="senderSwitch" destination="vof-UX-Ibh" id="za2-ts-ghV"/>
+                        <outlet property="startButton" destination="W08-WX-HiD" id="2vy-Wf-7gS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="815" y="401"/>
+        </scene>
+        <!--Init View Controller-->
+        <scene sceneID="fwq-b3-AvK">
+            <objects>
+                <viewController id="Ejr-oa-dga" customClass="initViewController" customModule="CardboardCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fnL-P3-qXP"/>
+                        <viewControllerLayoutGuide type="bottom" id="ri3-Sb-n8x"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IKU-71-7lD">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ssx-rI-gH6">
+                                <rect key="frame" x="0.0" y="353" width="702" height="3"/>
+                            </progressView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMg-FI-A7B">
+                                <rect key="frame" x="310" y="261" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="JRh-t7-Wdv" kind="modal" id="8UC-Y7-XNB"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBu-Mq-twd">
+                                <rect key="frame" x="248" y="126" width="141" height="123"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="44"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="highlightedColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="4TW-IF-EQs"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="nextButton" destination="tMg-FI-A7B" id="oPD-lh-rge"/>
+                        <outlet property="progressBar" destination="ssx-rI-gH6" id="1aW-7F-js4"/>
+                        <outlet property="progressLabel" destination="UBu-Mq-twd" id="X1z-pF-vln"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VF3-7z-1mY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1789.5" y="814.5"/>
+        </scene>
+        <!--Test-->
+        <scene sceneID="Mst-5E-AGx">
+            <objects>
+                <viewController restorationIdentifier="glassViewController" storyboardIdentifier="glassViewController" title="Test" id="JRh-t7-Wdv" customClass="GlassViewController" customModule="CardboardCam" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8OH-eb-8It"/>
+                        <viewControllerLayoutGuide type="bottom" id="yGc-BU-FoK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="je3-Re-DS3">
+                        <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ju6-qT-t8q">
+                                <rect key="frame" x="334" y="0.0" width="333" height="375"/>
+                                <subviews>
+                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xUv-tR-gKz">
+                                        <rect key="frame" x="0.0" y="0.0" width="333" height="375"/>
+                                    </imageView>
+                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="44q-kQ-bXw">
+                                        <rect key="frame" x="0.0" y="0.0" width="333" height="375"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fb5-mn-bf5">
+                                <rect key="frame" x="0.0" y="0.0" width="333" height="375"/>
+                                <subviews>
+                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SaN-YE-UzE">
+                                        <rect key="frame" x="0.0" y="0.0" width="333" height="375"/>
+                                    </imageView>
+                                    <imageView autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ery-YX-lac">
+                                        <rect key="frame" x="0.0" y="0.0" width="333" height="375"/>
+                                    </imageView>
+                                    <imageView hidden="YES" autoresizesSubviews="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Security_Camera_512g.png" translatesAutoresizingMaskIntoConstraints="NO" id="WCt-Z4-eA9">
+                                        <rect key="frame" x="-19" y="67" width="371" height="230"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Cq0-OO-ERt"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="animationLeftEye" destination="SaN-YE-UzE" id="d4C-f3-7uy"/>
+                        <outlet property="animationRightEye" destination="44q-kQ-bXw" id="8cp-m4-kSI"/>
+                        <outlet property="backStatusView" destination="WCt-Z4-eA9" id="vvh-Uz-rI5"/>
+                        <outlet property="leftEye" destination="fb5-mn-bf5" id="Uic-xl-TKb"/>
+                        <outlet property="leftEyeImage" destination="ery-YX-lac" id="9cC-qZ-fwt"/>
+                        <outlet property="rightEye" destination="ju6-qT-t8q" id="Fnf-81-Hzl"/>
+                        <outlet property="rightEyeImage" destination="xUv-tR-gKz" id="BnP-Df-yIh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dbQ-7x-gac" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2633.5" y="814.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="o9o-bP-VGI">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="F0Q-bP-En5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AT7-vY-qdv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="ewS-LT-TIP"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B9l-SX-6Qn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="147" y="401"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Security_Camera_512g.png" width="512" height="512"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

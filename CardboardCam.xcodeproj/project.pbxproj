@@ -486,6 +486,7 @@
 		73CB76D51B47DECA0017FEAF /* animation_00458.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CB75081B47DECA0017FEAF /* animation_00458.png */; };
 		73CB76D61B47DECA0017FEAF /* animation_00459.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CB75091B47DECA0017FEAF /* animation_00459.png */; };
 		73CB76D71B47DECA0017FEAF /* animation_00460.png in Resources */ = {isa = PBXBuildFile; fileRef = 73CB750A1B47DECA0017FEAF /* animation_00460.png */; };
+		73E298831B55464200A00D7C /* MotionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73E298821B55464200A00D7C /* MotionKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -982,6 +983,7 @@
 		73CB75081B47DECA0017FEAF /* animation_00458.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animation_00458.png; sourceTree = "<group>"; };
 		73CB75091B47DECA0017FEAF /* animation_00459.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animation_00459.png; sourceTree = "<group>"; };
 		73CB750A1B47DECA0017FEAF /* animation_00460.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = animation_00460.png; sourceTree = "<group>"; };
+		73E298821B55464200A00D7C /* MotionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionKit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1034,6 +1036,7 @@
 				7318F77F1B0F6EB400E68A0A /* GlassViewController.swift */,
 				734D4B771B0E54FE00D998E7 /* AppDelegate.swift */,
 				731D30D71B13731900F11DEB /* CBCamController.swift */,
+				73E298821B55464200A00D7C /* MotionKit.swift */,
 				734D4B7C1B0E54FF00D998E7 /* ConnectionViewController.swift */,
 				734D4B9E1B0F247A00D998E7 /* initViewController.swift */,
 				734D4B7E1B0E54FF00D998E7 /* Main.storyboard */,
@@ -2104,6 +2107,7 @@
 				734D4B9B1B0E5DB400D998E7 /* MPCHandler.swift in Sources */,
 				734D4B7B1B0E54FF00D998E7 /* CardboardCam.xcdatamodeld in Sources */,
 				73580E4F1B4EF8850077D420 /* FilterCollection.swift in Sources */,
+				73E298831B55464200A00D7C /* MotionKit.swift in Sources */,
 				73CB6FA31B4561630017FEAF /* Objekt.swift in Sources */,
 				734D4B781B0E54FE00D998E7 /* AppDelegate.swift in Sources */,
 				736DA1DD1B2E07B800956500 /* CameraSessionController.swift in Sources */,

@@ -39,6 +39,8 @@ class initViewController: UIViewController {
         appDelegate.cbCamController.cameraController.startCamera()
         appDelegate.cbCamController.setupTimer()
         appDelegate.cbCamController.startBeaconDetector()
+        appDelegate.cbCamController.startMotionDetection()
+
         progressBar.setProgress(0, animated: true)
         progressLabel.text = "0%"
         counterTimer = NSTimer.scheduledTimerWithTimeInterval(0.045, target: self, selector: Selector("count"), userInfo: nil, repeats: true)

@@ -56,7 +56,7 @@ class FilterCollection {
             return filter
     }
     
-    func flipFilter()->CIFilter{
+    func flipHorizontalFilter()->CIFilter{
         var mirror :CGAffineTransform = CGAffineTransformMakeScale(-1, 1)
         let parameters : CIParameters = [
             kCIInputTransformKey: NSValue(CGAffineTransform: mirror)
@@ -64,5 +64,15 @@ class FilterCollection {
         let filter = CIFilter(name: "CIAffineTransform", withInputParameters:parameters)
         return filter
     }
+    
+    func flipVertikalFilter()->CIFilter{
+        var mirror :CGAffineTransform = CGAffineTransformMakeScale(1, -1)
+        let parameters : CIParameters = [
+            kCIInputTransformKey: NSValue(CGAffineTransform: mirror)
+        ]
+        let filter = CIFilter(name: "CIAffineTransform", withInputParameters:parameters)
+        return filter
+    }
+
     
 }

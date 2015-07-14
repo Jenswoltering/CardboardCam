@@ -84,7 +84,7 @@ class ConnectionViewController: UIViewController,MCBrowserViewControllerDelegate
             empfaengerSwitch.hidden = false
             appDelegate.cbCamController = CBCamController()
             appDelegate.cbCamController.isViewer = empfaengerSwitch.on
-           
+                      
                     }
         if state == MCSessionState.NotConnected.rawValue{
             self.navigationItem.title = "Not Connected"

@@ -68,6 +68,10 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
                 let parameters = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
                 appDelegate.cbCamController.useBackCamera = parameters.objectForKey("useBackCamera")!.boolValue
                 appDelegate.cbCamController.useFilter = parameters.objectForKey("useFilter")!.boolValue
+                appDelegate.cbCamController.xMotion = parameters.objectForKey("xMotion")!.doubleValue
+                appDelegate.cbCamController.yMotion = parameters.objectForKey("yMotion")!.doubleValue
+                appDelegate.cbCamController.zMotion = parameters.objectForKey("zMotion")!.doubleValue
+                
                 if (parameters.objectForKey("filterName")!.description != "keinFilter"){
                     var alleFilter = appDelegate.cbCamController.filterWrapper
                     for einFilter in alleFilter {
@@ -76,6 +80,12 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
                         }
                     }
                 }
+                if appDelegate.cbCamController.useFilter == true{
+                    if appDelegate.cbCamController.filterToUse.name() == appDelegate.cbCamController.filterColorCross.name(){
+                        appDelegate.cbCamController.updateVectors()
+                    }
+                }
+                
             }
         }
     }

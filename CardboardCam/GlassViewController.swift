@@ -13,6 +13,7 @@ import CoreMedia
 import CoreVideo
 import CoreGraphics
 import MultipeerConnectivity
+import MediaPlayer
 
 
 class GlassViewController: UIViewController{
@@ -22,19 +23,16 @@ class GlassViewController: UIViewController{
     var didLoad = false
     var customPreviewLayerLeft = CALayer()
     var customPreviewLayerRight = CALayer()
-    
     var counter :Int = 0
     var timer  = NSTimer()
     let animationDuration : NSTimeInterval = 1.0
-     var imagesForAnimation :[UIImage] = []
+    var imagesForAnimation :[UIImage] = []
+    //var fileURL: NSURL = NSURL(string: NSBundle.mainBundle().pathForResource("intro", ofType: "mov")!)!
 
-    
     var GlobalMainQueue: dispatch_queue_t {
         return dispatch_get_main_queue()
     }
-    
-    
-    
+
     var GlobalUserInteractiveQueue: dispatch_queue_t {
         return dispatch_get_global_queue(Int(QOS_CLASS_USER_INTERACTIVE.value), 0)
     }
@@ -55,6 +53,8 @@ class GlassViewController: UIViewController{
     @IBOutlet weak var leftEyeImage: UIImageView!
     @IBOutlet weak var animationRightEye: UIImageView!
     @IBOutlet weak var animationLeftEye: UIImageView!
+    @IBOutlet weak var webviewLeft: UIWebView!
+    @IBOutlet weak var webviewRight: UIWebView!
     @IBOutlet weak var rightEyeImage: UIImageView!
     @IBOutlet weak var rightEye: UIView!
     
@@ -64,21 +64,6 @@ class GlassViewController: UIViewController{
     }
     
     override func viewDidLoad() {
-        //super.viewDidLoad()
-//        videoLayerLeft.frame = leftEye.bounds
-//        videoLayerRight.frame = rightEye.bounds
-//        videoLayerLeft.position = leftEye.center
-//        videoLayerRight.position = rightEye.center
-//        videoLayerLeft.setNeedsDisplay()
-//        videoLayerRight.setNeedsDisplay()
-//        self.view.layer.addSublayer(videoLayerLeft)
-//        self.view.layer.addSublayer(videoLayerRight)
-//        didLoad = true
-//        updateImages()
-//        leftEyeImage.animationDuration=animationDuration
-//        rightEyeImage.animationDuration=animationDuration
-//        leftEyeImage.startAnimating()
-//        rightEyeImage.startAnimating()
         self.view.backgroundColor=UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
         leftEye.backgroundColor=UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
         rightEye.backgroundColor=UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
@@ -87,38 +72,51 @@ class GlassViewController: UIViewController{
         if appDelegate.cbCamController.isViewer == true {
             timer = NSTimer.scheduledTimerWithTimeInterval(0.04, target: self, selector: Selector("updateImages"), userInfo: nil, repeats: true)
 //            loadAnimationImages()
-//            startIntroAnimation()
         }else{
             backStatusView.hidden=false
         }
-        
-        
-        
     }
     
     func startIntroAnimation(){
+       
         animationRightEye.animationImages = self.imagesForAnimation
         animationLeftEye.animationImages = self.imagesForAnimation
-//        animationRightEye.animationRepeatCount = 1
-//        animationLeftEye.animationRepeatCount = 1
+        animationLeftEye.animationDuration = 460 / 24.0
+        animationRightEye.animationDuration = 460 / 24.0;
+        animationRightEye.animationRepeatCount = 1
+        animationLeftEye.animationRepeatCount = 1
         animationLeftEye.startAnimating()
+        NSLog("start animation")
         animationRightEye.startAnimating()
+
     }
     
+    
     func loadAnimationImages(){
-        let frameCount = 460
-        var imageNames:[String] = []
-        let fixedName = "animation_"
-        var frameNumber:Int
-       
-        
-        for frameNumber = 0; frameNumber <= frameCount; ++frameNumber{
-            imageNames.append( fixedName +  String(format: "%05d", frameNumber))
-            self.imagesForAnimation.append(UIImage(named: imageNames.last!)!)
-        }
         
         
-        
+//        let moviePlayerController = MPMoviePlayerController(contentURL: self.fileURL)
+//        
+//        moviePlayerController.shouldAutoplay = true
+//        moviePlayerController.movieSourceType = MPMovieSourceType.File
+//        moviePlayerController.view.frame = CGRect(x: 0, y: 0, width: 667, height: 750)
+//        
+//        
+//        
+//        self.view.addSubview(moviePlayerController.view)
+//        
+//        moviePlayerController.prepareToPlay()
+//        moviePlayerController.play()
+//        let frameCount = 460
+//        var imageNames:[String] = []
+//        let fixedName = "animation_"
+//        var frameNumber:Int
+//        for frameNumber = 0; frameNumber <= frameCount; ++frameNumber{
+//            imageNames.append( fixedName +  String(format: "%05d", frameNumber))
+//            self.imagesForAnimation.append(UIImage(named: imageNames.last!)!)
+//        }
+//        sleep(2)
+//        startIntroAnimation()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

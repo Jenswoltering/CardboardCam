@@ -39,12 +39,12 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
             identifier: beaconIdentifier)
         // Dump Filter als Platzhalter
         objektFilter0 = Objekt(pObjektUUID: "0", pObjektMinor: "0", pObjektMajor: "0", pfilter: appDelegate.cbCamController.filterColorInvert)
-        objektFilter1 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "1",  pfilter : appDelegate.cbCamController.filterMonochrome)
+        objektFilter1 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "1",  pfilter : appDelegate.cbCamController.filterBumbDistortion)
         objektFilter2 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "1",  pfilter: appDelegate.cbCamController.filterColorCross)
-        objektFilter3 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterPinchDistortion)
-        objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterColorInvert)
-        objektFilter5 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "3",  pfilter: appDelegate.cbCamController.filterBumbDistortion)
-        objektWrapper=[objektFilter1, objektFilter2, objektFilter3,objektFilter4,objektFilter5]
+        objektFilter3 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterFlipHori)
+//        objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterFlipVerti)
+        objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "3",  pfilter: appDelegate.cbCamController.filterColorInvert)
+        objektWrapper=[objektFilter1, objektFilter2, objektFilter3,objektFilter4]
         aktiverFilter = objektFilter0
         
         if(locationManager.respondsToSelector("requestAlwaysAuthorization")) {
@@ -91,7 +91,8 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
                 readyToChangeMode=true
             }
         }else{
-                counterToUnlockMode=0
+            appDelegate.cbCamController.useBackCamera = true
+            counterToUnlockMode=0
         }
         if readyToChangeFilter == false{
                 
@@ -108,10 +109,15 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
         var message:String = ""
         //Wenn Beacons Vorhanden
         if(beacons.count > 0) {
+            //Logging beacons
+//            for beacon in beacons{
+//                NSLog("Major:" + beacon.major.description + " Minor:" + beacon.minor.description + " RSSI:" + beacon.rssi.description + " Proxmity:" + beacon.proximity.rawValue.description )
+//            }
             //Den naehsten Beacon ermitteln
             if naehsterFilterBeacon(beacons) != nil{
                 var beacon: AnyObject = naehsterFilterBeacon(beacons)!
                 var beaconUUID :NSUUID = beacon.proximityUUID
+//                NSLog("Naechster Beacon = Major:" + beacon.major.description + " Minor:" + beacon.minor.description + " RSSI:" + beacon.rssi.description + " Proxmity:" + beacon.proximity.rawValue.description )
                 //Wenn Beaconentfernung nicht unknown (doppelte Abfrage da in naehsterBeacon schon vorhanden)
                 if beacon.proximity != CLProximity.Unknown {
                     //Bereich eingrenzen auf max NEAR
@@ -134,6 +140,7 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
                                     appDelegate.cbCamController.useFilter=true
                                     appDelegate.cbCamController.filterToUse = einObjekt.filter
                                     readyToChangeFilter=false
+                                    counterToUnlockFilter = 0
                                 }
                             }
                         }
@@ -145,11 +152,23 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
             for beacon in beacons{
                 var beaconUUID :NSUUID = beacon.proximityUUID
                 if (beaconUUID.UUIDString == "73676723-7400-0000-FFFF-0000FFFF0002" && beacon.major == 0 && beacon.rssi >= -40 && beacon.rssi != 0 ) {
-                    if readyToChangeMode{
-                        appDelegate.cbCamController.useBackCamera = !appDelegate.cbCamController.useBackCamera
-                        readyToChangeMode=false
+                    appDelegate.cbCamController.useBackCamera = false
+                    readyToChangeMode=false
+                    
+                    if counterToUnlockMode >= 1 {
+                        counterToUnlockMode = counterToUnlockMode - 1
                     }
                 }
+                
+                if (beaconUUID.UUIDString == "73676723-7400-0000-FFFF-0000FFFF0002" && beacon.major == 2 && beacon.minor == 2 && beacon.rssi >= -40 && beacon.rssi != 0 ) {
+                    if appDelegate.cbCamController.showIntro == false {
+                        appDelegate.cbCamController.showIntro=true
+                        appDelegate.cbCamController.loadIntro()
+                    }
+                    
+                }
+
+                
             }
         }
         //Filter deaktivieren wenn: readyToChange und Counter > 5

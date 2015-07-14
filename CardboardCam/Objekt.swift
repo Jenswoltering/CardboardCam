@@ -33,8 +33,6 @@ class Objekt {
     var filterPinchDistortion = CIFilter(name: "CIPinchDistortion")
     var filterColorCross = CIFilter(name: "CIColorCrossPolynomial")
     
-    
-    
     init(pObjektUUID: String, pObjektMinor: String, pObjektMajor: String,  pfilter : CIFilter?) {
         self.objektUUID=pObjektUUID
         self.objektMinor = pObjektMinor
@@ -54,7 +52,7 @@ class Objekt {
         if beacon.major.description == objektMajor{
             if beacon.minor.description == objektMinor{
                 self.objektRSSI = beacon.rssi
-                if (beacon.rssi >= -65 && beacon.rssi != 0){
+                if (beacon.rssi >= -60 && beacon.rssi != 0){
                         return true
                 }
             }
