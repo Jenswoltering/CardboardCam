@@ -99,15 +99,6 @@ class MPCHandler: NSObject, MCSessionDelegate, NSStreamDelegate {
     }
     
     func session(session: MCSession!, didReceiveStream stream: NSInputStream!, withName streamName: String!, fromPeer peerID: MCPeerID!) {
-//        stream.delegate=self
-//        stream.scheduleInRunLoop(NSRunLoop.mainRunLoop(), forMode: NSDefaultRunLoopMode)
-//        stream.open()
-//        dispatch_async(dispatch_get_main_queue(), {
-//            if (stream.hasBytesAvailable){
-//                NSLog("HallO")
-//            }
-//
-//        })
     }
     
     

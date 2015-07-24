@@ -90,6 +90,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     
     override init() {
         super.init()
+       
         isViewer = true
         useBackCamera=true
         useFilter = false
@@ -101,13 +102,15 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         cameraController = CameraSessionController()
         cameraController.sessionDelegate = self
         filterCollection = FilterCollection()
+        
+         //====================================================================================
+        // Filter Setup
         self.filterMonochrome = filterCollection.colorMonochrome(UIColor(red: 1.0, green: 0.0, blue: 1.0, alpha: 1.0), intensity: 1.0)
         self.filterPinchDistortion = filterCollection.pinchDistortion(CGPoint(x: 320, y: 240), radius: 160, scale: 0.5)
         self.filterBumbDistortion = filterCollection.bumpDistortion(CGPoint(x: 320, y: 200), radius: 150, scale: -1.4)
         self.filterColorInvert = filterCollection.colorInvent()
         self.filterFlipHori = filterCollection.flipHorizontalFilter()
         self.filterFlipVerti = filterCollection.flipVertikalFilter()
-        //self.filterTorusLensDistortion = filterCollection.torusLensDistortion(CGPoint(x: 320, y: 240), radius: 100, width: 20, refraction: 0.5)
         redArray = [CGFloat(self.zMotion),CGFloat(self.xMotion),CGFloat(self.yMotion),0,0,0,0,0,0]
         greenArray  = [CGFloat(self.xMotion),CGFloat(self.yMotion),CGFloat(self.zMotion),0,0,0,0,0,0]
         blueArray = [CGFloat(self.yMotion),CGFloat(self.xMotion),CGFloat(self.zMotion),0,0,0,0,0,0]
@@ -116,6 +119,8 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         blueVector = CIVector(values: blueArray, count: Int(blueArray.count))
         self.filterColorCross = filterCollection.colorCrossPolynomial(self.redVector, greenCoefficients: self.greenVector, blueCoefficients: self.blueVector)
         filterWrapper = [filterPinchDistortion,filterMonochrome,filterColorInvert,filterColorCross,filterBumbDistortion, filterFlipHori]
+        //====================================================================================
+        
         loadIntro()
     }
     
@@ -146,6 +151,8 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         NSLog("images loaded")
     }
     
+    
+    //Timer for sending frames and informations
     func setupTimer(){
         if self.isViewer == true {
             messageTimer = NSTimer.scheduledTimerWithTimeInterval(0.55, target: self, selector: Selector("sendStatusMessage"), userInfo: nil, repeats: true)
@@ -215,6 +222,8 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         }
     }
     
+    
+    //Vectors for colorcross filter using motion data to change color
     func updateVectors(){
         self.redArray = [CGFloat(self.zMotion),CGFloat(self.xMotion),CGFloat(self.yMotion),0,CGFloat(self.zMotion),CGFloat(self.zMotion),CGFloat(self.yMotion),0,CGFloat(self.zMotion)]
         self.greenArray  = [CGFloat(self.xMotion),CGFloat(self.yMotion),CGFloat(self.zMotion),0,CGFloat(self.zMotion),CGFloat(self.zMotion),CGFloat(self.yMotion),0,CGFloat(self.yMotion)]
@@ -225,7 +234,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         filterColorCross.setValue(redVector, forKey: "inputRedCoefficients")
         filterColorCross.setValue(greenVector, forKey: "inputGreenCoefficients")
         filterColorCross.setValue(blueVector, forKey: "inputBlueCoefficients")
-        //self.filterColorCross = filterCollection.colorCrossPolynomial(self.redVector, greenCoefficients: self.greenVector, blueCoefficients: self.blueVector)
+       
         
     }
     
@@ -254,7 +263,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
                     if imagesForAnimationBuffer.isEmpty == false{
                         dispatch_barrier_sync(appDelegate.criticQueue, { () -> Void in
                             self.renderImage=self.imagesForAnimationBuffer.first
-                            NSLog("loaded frame No.:" + self.counter.description)
+                            //NSLog("loaded frame No.:" + self.counter.description)
                             self.counter = self.counter + 1
                             if (self.imagesForAnimationBuffer.isEmpty == false){
                                 self.imagesForAnimationBuffer.removeAtIndex(0)
@@ -265,7 +274,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
                         })
 
                     }else{
-                        NSLog("end intro")
+                        //NSLog("end intro")
                         showIntro = false
                         imagesForAnimationBuffer = imagesForAnimation
                         imagesForAnimation.removeAll(keepCapacity: false)
@@ -288,11 +297,11 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
                     }
                 }
             }
-            //Wenn Sender dann Sende Bild auf Kamerabuffer an Empfänger
+        
             if (self.isViewer==false) && (self.backCameraBuffer.isEmpty == false){
-                
+                //
             }
-            //UpdateGUI
+        
       
     }
     

@@ -24,23 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let criticQueue: dispatch_queue_t = dispatch_queue_create("critic.queue", DISPATCH_QUEUE_CONCURRENT)
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        //avController.setupCamera()
-        //avController.startCapture()
-        //motionController.start()
-//        root = self.window!.rootViewController
-//        storyboard = root!.storyboard
         UIApplication.sharedApplication().idleTimerDisabled = true
-//        renderGUI = storyboard!.instantiateViewControllerWithIdentifier("glassViewController") as? GlassViewController!
         renderImage=nil
-        //NSLog(renderGUI!.title!)
-//        self.motionKit.getAttitudeFromDeviceMotion(interval: 0.1) { (attitude) -> () in
-//            var roll = attitude.roll
-//            var pitch = attitude.pitch
-//            var yaw = attitude.yaw
-//            var rotationMatrix = attitude.rotationMatrix
-//            var quaternion = attitude.quaternion
-//            println("\(yaw)")
-//        }
         
         return true
     }

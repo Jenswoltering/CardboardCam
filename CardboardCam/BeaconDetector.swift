@@ -43,11 +43,7 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
         objektFilter1 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "1",  pfilter : appDelegate.cbCamController.filterBumbDistortion)
         objektFilter2 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "1",  pfilter: appDelegate.cbCamController.filterColorCross)
         objektFilter3 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterFlipHori)
-        //objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterColorInvert)
-        
-        
-        //objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "3",  pfilter: appDelegate.cbCamController.filterColorInvert)
-        
+               
         objektWrapper=[objektFilter1, objektFilter2, objektFilter3]
         aktiverFilter = objektFilter0
         
@@ -120,7 +116,6 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
             if naehsterFilterBeacon(beacons) != nil{
                 var beacon: AnyObject = naehsterFilterBeacon(beacons)!
                 var beaconUUID :NSUUID = beacon.proximityUUID
-//                NSLog("Naechster Beacon = Major:" + beacon.major.description + " Minor:" + beacon.minor.description + " RSSI:" + beacon.rssi.description + " Proxmity:" + beacon.proximity.rawValue.description )
                 //Wenn Beaconentfernung nicht unknown (doppelte Abfrage da in naehsterBeacon schon vorhanden)
                 if beacon.proximity != CLProximity.Unknown {
                     //Bereich eingrenzen auf max NEAR
@@ -157,7 +152,6 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
                     
             //Pruefen ob sich unter den Beacons der Kamerawechsel Beacon befindet
             for beacon in beacons{
-//                NSLog("Major:" + beacon.major.description + " Minor:" + beacon.minor.description + " RSSI:" + beacon.rssi.description + " Proxmity:" + beacon.proximity.rawValue.description )
                 var beaconUUID :NSUUID = beacon.proximityUUID
                 if (beaconUUID.UUIDString == "73676723-7400-0000-FFFF-0000FFFF0002" && beacon.major == 3 && beacon.minor == 1 && beacon.rssi >= -69  && beacon.rssi != 0 ) {
                     appDelegate.cbCamController.useBackCamera = false
@@ -188,16 +182,14 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
     
     func locationManager(manager: CLLocationManager!,
         didEnterRegion region: CLRegion!) {
-//            manager.startRangingBeaconsInRegion(region as! CLBeaconRegion)
-//            manager.startUpdatingLocation()
-//            NSLog("You entered the region")
+
             
     }
     
     func locationManager(manager: CLLocationManager!,
         didExitRegion region: CLRegion!) {
             
-            NSLog("You exited the region")
+            
             
     }
 
