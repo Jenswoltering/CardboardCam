@@ -93,7 +93,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         isViewer = true
         useBackCamera=true
         useFilter = false
-        showIntro = true
+        showIntro = false
         isRunning = true
         self.xMotion = 1
         self.yMotion = 0
@@ -103,7 +103,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
         filterCollection = FilterCollection()
         self.filterMonochrome = filterCollection.colorMonochrome(UIColor(red: 1.0, green: 0.0, blue: 1.0, alpha: 1.0), intensity: 1.0)
         self.filterPinchDistortion = filterCollection.pinchDistortion(CGPoint(x: 320, y: 240), radius: 160, scale: 0.5)
-        self.filterBumbDistortion = filterCollection.bumpDistortion(CGPoint(x: 320, y: 240), radius: 200, scale: 3)
+        self.filterBumbDistortion = filterCollection.bumpDistortion(CGPoint(x: 320, y: 200), radius: 150, scale: -1.4)
         self.filterColorInvert = filterCollection.colorInvent()
         self.filterFlipHori = filterCollection.flipHorizontalFilter()
         self.filterFlipVerti = filterCollection.flipVertikalFilter()
@@ -122,7 +122,7 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     func startMotionDetection(){
         if self.isViewer == true{
             self.motionKit = MotionKit()
-            motionKit.getAttitudeFromDeviceMotion(interval: 0.4) {
+            motionKit.getAttitudeFromDeviceMotion(interval: 0.55) {
                 (attitude) -> () in
                 self.xMotion = self.normalize(attitude.roll)
                 self.yMotion = self.normalize(attitude.pitch)
@@ -134,9 +134,9 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     
     
     func loadIntro(){
-        let frameCount = 460
+        let frameCount = 818
         var imageNames:[String] = []
-        let fixedName = "animation_"
+        let fixedName = "Einleitungsscreen_PP_"
         var frameNumber:Int
         for frameNumber = 0; frameNumber <= frameCount; ++frameNumber{
             imageNames.append( fixedName +  String(format: "%05d", frameNumber))
@@ -148,8 +148,8 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     
     func setupTimer(){
         if self.isViewer == true {
-            messageTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: Selector("sendStatusMessage"), userInfo: nil, repeats: true)
-            GUITimer = NSTimer.scheduledTimerWithTimeInterval(0.035, target: self, selector: Selector("run"), userInfo: nil, repeats: true)
+            messageTimer = NSTimer.scheduledTimerWithTimeInterval(0.55, target: self, selector: Selector("sendStatusMessage"), userInfo: nil, repeats: true)
+            GUITimer = NSTimer.scheduledTimerWithTimeInterval(0.04, target: self, selector: Selector("run"), userInfo: nil, repeats: true)
         }
     }
     
@@ -216,9 +216,9 @@ class CBCamController: NSObject,CameraSessionControllerDelegate {
     }
     
     func updateVectors(){
-        self.redArray = [CGFloat(self.zMotion),CGFloat(self.xMotion),CGFloat(self.yMotion),0,0,0,0,0,0]
-        self.greenArray  = [CGFloat(self.xMotion),CGFloat(self.yMotion),CGFloat(self.zMotion),0,0,0,0,0,0]
-        self.blueArray  = [CGFloat(self.yMotion),CGFloat(self.xMotion),CGFloat(self.zMotion),0,0,0,0,0,0]
+        self.redArray = [CGFloat(self.zMotion),CGFloat(self.xMotion),CGFloat(self.yMotion),0,CGFloat(self.zMotion),CGFloat(self.zMotion),CGFloat(self.yMotion),0,CGFloat(self.zMotion)]
+        self.greenArray  = [CGFloat(self.xMotion),CGFloat(self.yMotion),CGFloat(self.zMotion),0,CGFloat(self.zMotion),CGFloat(self.zMotion),CGFloat(self.yMotion),0,CGFloat(self.yMotion)]
+        self.blueArray  = [CGFloat(self.yMotion),CGFloat(self.xMotion),CGFloat(self.zMotion),0,CGFloat(self.zMotion),0,CGFloat(self.zMotion),0,CGFloat(self.zMotion)]
         self.redVector = CIVector(values: redArray, count: Int(redArray.count))
         self.greenVector = CIVector(values: greenArray, count: Int(greenArray.count))
         self.blueVector = CIVector(values: blueArray, count: Int(blueArray.count))

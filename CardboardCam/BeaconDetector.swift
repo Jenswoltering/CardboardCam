@@ -37,20 +37,23 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
         let beaconUUID:NSUUID = NSUUID(UUIDString: uuidString)!
         let beaconRegion:CLBeaconRegion = CLBeaconRegion(proximityUUID: beaconUUID,
             identifier: beaconIdentifier)
+        //========================================================================================
         // Dump Filter als Platzhalter
         objektFilter0 = Objekt(pObjektUUID: "0", pObjektMinor: "0", pObjektMajor: "0", pfilter: appDelegate.cbCamController.filterColorInvert)
         objektFilter1 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "1",  pfilter : appDelegate.cbCamController.filterBumbDistortion)
         objektFilter2 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "1",  pfilter: appDelegate.cbCamController.filterColorCross)
         objektFilter3 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterFlipHori)
-//        objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterFlipVerti)
-        objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "3",  pfilter: appDelegate.cbCamController.filterColorInvert)
-        objektWrapper=[objektFilter1, objektFilter2, objektFilter3,objektFilter4]
+        //objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "2", pObjektMajor: "2",  pfilter: appDelegate.cbCamController.filterColorInvert)
+        
+        
+        //objektFilter4 = Objekt(pObjektUUID: "73676723-7400-0000-FFFF-0000FFFF0002", pObjektMinor: "1", pObjektMajor: "3",  pfilter: appDelegate.cbCamController.filterColorInvert)
+        
+        objektWrapper=[objektFilter1, objektFilter2, objektFilter3]
         aktiverFilter = objektFilter0
         
         if(locationManager.respondsToSelector("requestAlwaysAuthorization")) {
             locationManager.requestAlwaysAuthorization()
         }
-        
         locationManager.delegate = self
         locationManager.pausesLocationUpdatesAutomatically = false
         locationManager.startMonitoringForRegion(beaconRegion)
@@ -87,7 +90,7 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
         inRegion region: CLBeaconRegion!) {
         if readyToChangeMode == false{
             counterToUnlockMode=counterToUnlockMode+1
-            if counterToUnlockMode >= 5{
+            if counterToUnlockMode >= 8{
                 readyToChangeMode=true
             }
         }else{
@@ -98,7 +101,7 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
                 
             counterToUnlockFilter=counterToUnlockFilter+1
         
-            if counterToUnlockFilter >= 5{
+            if counterToUnlockFilter >= 6{
                 readyToChangeFilter=true
             }
         }else{
@@ -130,8 +133,12 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
                                 if einObjekt.objektMajor == aktiverFilter.objektMajor && einObjekt.objektMinor == aktiverFilter.objektMinor {
                                         readyToChangeFilter=false
                                         //counter hinabsetzen um es nicht zu deaktivieren
-                                        if counterInaktiv >= 1 {
-                                            counterInaktiv = counterInaktiv - 1
+                                        if counterInaktiv >= 2 {
+                                            counterInaktiv = counterInaktiv - 2
+                                        } else{
+                                            if counterInaktiv >= 1{
+                                                counterInaktiv = counterInaktiv - 1
+                                            }
                                         }
                                     }
                                 //Wenn bereit zum Aendern dann filter setzen
@@ -150,30 +157,27 @@ class BeaconDetector: NSObject, CLLocationManagerDelegate{
                     
             //Pruefen ob sich unter den Beacons der Kamerawechsel Beacon befindet
             for beacon in beacons{
+//                NSLog("Major:" + beacon.major.description + " Minor:" + beacon.minor.description + " RSSI:" + beacon.rssi.description + " Proxmity:" + beacon.proximity.rawValue.description )
                 var beaconUUID :NSUUID = beacon.proximityUUID
-                if (beaconUUID.UUIDString == "73676723-7400-0000-FFFF-0000FFFF0002" && beacon.major == 0 && beacon.rssi >= -40 && beacon.rssi != 0 ) {
+                if (beaconUUID.UUIDString == "73676723-7400-0000-FFFF-0000FFFF0002" && beacon.major == 3 && beacon.minor == 1 && beacon.rssi >= -69  && beacon.rssi != 0 ) {
                     appDelegate.cbCamController.useBackCamera = false
                     readyToChangeMode=false
-                    
                     if counterToUnlockMode >= 1 {
                         counterToUnlockMode = counterToUnlockMode - 1
                     }
                 }
                 
-                if (beaconUUID.UUIDString == "73676723-7400-0000-FFFF-0000FFFF0002" && beacon.major == 2 && beacon.minor == 2 && beacon.rssi >= -40 && beacon.rssi != 0 ) {
+                if (beaconUUID.UUIDString == "73676723-7400-0000-FFFF-0000FFFF0002" && beacon.major == 0 && beacon.rssi >= -50 && beacon.rssi != 0 ) {
                     if appDelegate.cbCamController.showIntro == false {
                         appDelegate.cbCamController.showIntro=true
                         appDelegate.cbCamController.loadIntro()
                     }
-                    
                 }
-
-                
             }
         }
         //Filter deaktivieren wenn: readyToChange und Counter > 5
         if readyToChangeFilter{
-            if counterInaktiv >= 8{
+            if counterInaktiv >= 6{
                 appDelegate.cbCamController.useFilter = false
                 aktiverFilter = objektFilter0
                 counterInaktiv = 0
